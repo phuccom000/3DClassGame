@@ -20,7 +20,14 @@ public static class VoxelData
 		new Vector3(0.0f, 1.0f, 1.0f),
 
 	};
-
+	public static readonly Vector3[] faceChecks = new Vector3[6] {
+		new Vector3(0.0f, 0.0f, -1.0f),
+		new Vector3(0.0f, 0.0f, 1.0f),
+		new Vector3(0.0f, 1.0f, 0.0f),
+		new Vector3(0.0f, -1.0f, 0.0f),
+		new Vector3(-1.0f, 0.0f, 0.0f),
+		new Vector3(1.0f, 0.0f, 0.0f)
+	};
 	public static readonly int[,] voxelTris = new int[6, 6] {
 
 		{0, 3, 1, 1, 3, 2}, // Back Face

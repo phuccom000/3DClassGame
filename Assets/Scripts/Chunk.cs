@@ -12,7 +12,14 @@ public class Chunk : MonoBehaviour
 	List<Vector3> vertices = new List<Vector3>();
 	List<int> triangles = new List<int>();
 	List<Vector2> uvs = new List<Vector2>();
+	bool[,,] voxelMap = new bool[VoxelData.ChunkWidth, VoxelData.ChunkHeigth, VoxelData.ChunkWidth];
 	void Start()
+	{
+		PopulateVoxelMap();
+		CreateMeshData();
+		CreateMesh();
+	}
+	void CreateMeshData()
 	{
 		for (int y = 0; y < VoxelData.ChunkHeigth; y++)
 		{
@@ -24,9 +31,20 @@ public class Chunk : MonoBehaviour
 				}
 			}
 		}
-		CreateMesh();
 	}
-
+	void PopulateVoxelMap()
+	{
+		for (int y = 0; y < VoxelData.ChunkHeigth; y++)
+		{
+			for (int x = 0; x < VoxelData.ChunkWidth; x++)
+			{
+				for (int z = 0; z < VoxelData.ChunkWidth; z++)
+				{
+					voxelMap[x, y, z] = true;
+				}
+			}
+		}
+	}
 	void AddVoxelDataToChunk(Vector3 pos)
 	{
 		for (int p = 0; p < 6; p++)
