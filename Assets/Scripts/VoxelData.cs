@@ -6,7 +6,13 @@ public static class VoxelData
 {
 
 	public static readonly int ChunkWidth = 5;
-	public static readonly int ChunkHeigth = 15;
+	public static readonly int ChunkHeight = 15;
+	public static readonly int WorldSizeInChunk = 4;
+	public static readonly int TextureAtlasSizeInBlocks = 4;
+	public static float NormalizeBlockTextureSize
+	{
+		get { return 1f / (float)TextureAtlasSizeInBlocks; }
+	}
 
 	public static readonly Vector3[] voxelVerts = new Vector3[8] {
 
