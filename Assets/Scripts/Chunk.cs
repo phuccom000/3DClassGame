@@ -32,7 +32,22 @@ public class Chunk : MonoBehaviour
 			}
 		}
 	}
-	void PopulateVoxelMap()
+
+	bool CheckVoxel(Vector3 pos)
+    {
+        int x = Mathf.FloorToInt(pos.x);
+        int y = Mathf.FloorToInt(pos.y);
+        int z = Mathf.FloorToInt(pos.z);
+
+		if (x < 0 || x >= VoxelData.ChunkWidth || y < 0 || y >= VoxelData.ChunkHeigth || z < 0 || z >= VoxelData.ChunkWidth)
+		{
+			return false;
+		}
+
+		return voxelMap[x, y, z];
+    }
+
+    void PopulateVoxelMap()
 	{
 		for (int y = 0; y < VoxelData.ChunkHeigth; y++)
 		{
@@ -49,17 +64,24 @@ public class Chunk : MonoBehaviour
 	{
 		for (int p = 0; p < 6; p++)
 		{
-			for (int i = 0; i < 6; i++)
+			if (!CheckVoxel(pos + VoxelData.faceChecks[p]))
 			{
-
-				int triangleIndex = VoxelData.voxelTris[p, i];
-				vertices.Add(VoxelData.voxelVerts[triangleIndex] + pos);
+				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 0]]);
+				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 1]]);
+				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 2]]);
+                vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 3]]);
+				uvs.Add(VoxelData.voxelUvs[0]);
+				uvs.Add(VoxelData.voxelUvs[1]);
+				uvs.Add(VoxelData.voxelUvs[2]);
+				uvs.Add(VoxelData.voxelUvs[3]);
 				triangles.Add(vertexIndex);
-
-				uvs.Add(VoxelData.voxelUvs[i]);
-
-				vertexIndex++;
-			}
+				triangles.Add(vertexIndex + 1);
+				triangles.Add(vertexIndex + 2);
+				triangles.Add(vertexIndex + 2);
+				triangles.Add(vertexIndex + 1);
+				triangles.Add(vertexIndex + 3);
+                vertexIndex += 4;
+            }
 		}
 	}
 
