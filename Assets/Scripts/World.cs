@@ -74,7 +74,10 @@ public class World : MonoBehaviour
             }
         }
         foreach (ChunkCoord c in prevActiveChunks)
+        {
             chunks[c.x, c.z].isActive = false;
+            activeChunks.Remove(c);
+        }
     }
     public byte GetVoxel(Vector3 pos)
     {
