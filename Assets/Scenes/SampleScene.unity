@@ -151,10 +151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb1c4443a14e834698abeaa6edd356d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 963194228}
+  spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
   blockTypes:
   - blockName: Air
     isSolid: 0
+    icon: {fileID: 0}
     backFaceTexture: 0
     frontFaceTexture: 0
     topFaceTexture: 0
@@ -163,6 +166,7 @@ MonoBehaviour:
     rightFaceTexture: 0
   - blockName: Bedrock
     isSolid: 1
+    icon: {fileID: 0}
     backFaceTexture: 9
     frontFaceTexture: 9
     topFaceTexture: 9
@@ -171,6 +175,7 @@ MonoBehaviour:
     rightFaceTexture: 9
   - blockName: Stone
     isSolid: 1
+    icon: {fileID: 0}
     backFaceTexture: 0
     frontFaceTexture: 0
     topFaceTexture: 8
@@ -179,6 +184,7 @@ MonoBehaviour:
     rightFaceTexture: 0
   - blockName: Grass
     isSolid: 1
+    icon: {fileID: 0}
     backFaceTexture: 2
     frontFaceTexture: 2
     topFaceTexture: 7
