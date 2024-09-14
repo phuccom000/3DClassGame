@@ -151,7 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb1c4443a14e834698abeaa6edd356d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 0
   player: {fileID: 963194228}
+  biome: {fileID: 11400000, guid: 55d142d012b754947ba195bebfcc3551, type: 2}
   spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
   blockTypes:
@@ -178,7 +180,7 @@ MonoBehaviour:
     icon: {fileID: 0}
     backFaceTexture: 0
     frontFaceTexture: 0
-    topFaceTexture: 8
+    topFaceTexture: 0
     bottomFaceTexture: 0
     leftFaceTexture: 0
     rightFaceTexture: 0
@@ -191,6 +193,33 @@ MonoBehaviour:
     bottomFaceTexture: 1
     leftFaceTexture: 2
     rightFaceTexture: 2
+  - blockName: Sand
+    isSolid: 1
+    icon: {fileID: 0}
+    backFaceTexture: 10
+    frontFaceTexture: 10
+    topFaceTexture: 10
+    bottomFaceTexture: 10
+    leftFaceTexture: 10
+    rightFaceTexture: 10
+  - blockName: Dirt
+    isSolid: 1
+    icon: {fileID: 0}
+    backFaceTexture: 1
+    frontFaceTexture: 1
+    topFaceTexture: 1
+    bottomFaceTexture: 1
+    leftFaceTexture: 1
+    rightFaceTexture: 1
+  - blockName: Cobblestone
+    isSolid: 1
+    icon: {fileID: 0}
+    backFaceTexture: 8
+    frontFaceTexture: 8
+    topFaceTexture: 8
+    bottomFaceTexture: 8
+    leftFaceTexture: 8
+    rightFaceTexture: 8
 --- !u!4 &86082665
 Transform:
   m_ObjectHideFlags: 0
@@ -386,7 +415,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: -75.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
