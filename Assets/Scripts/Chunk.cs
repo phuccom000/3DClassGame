@@ -13,7 +13,7 @@ public class Chunk
 	List<Vector3> vertices = new List<Vector3>();
 	List<int> triangles = new List<int>();
 	List<Vector2> uvs = new List<Vector2>();
-	byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+	public byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
 	[SerializeField] World world;
 
 	public Chunk(World _world, ChunkCoord _coord)
@@ -33,6 +33,7 @@ public class Chunk
 		PopulateVoxelMap();
 		CreateMeshData();
 		CreateMesh();
+
 	}
 	void CreateMeshData()
 	{
