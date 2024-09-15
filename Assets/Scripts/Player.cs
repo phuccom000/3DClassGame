@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private float vertical;
     private float mouseHorizontal;
     private float mouseVertical;
+    public float mouseSensitivity = 5f; // Adjusted sensitivity to a reasonable level
+    public Vector2 turn;
     private Vector3 velocity;
     private float verticalMomentum = 0;
     private bool jumpRequest;
@@ -30,6 +32,9 @@ public class Player : MonoBehaviour
     {
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
+
+        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()
@@ -38,14 +43,19 @@ public class Player : MonoBehaviour
         if (jumpRequest)
             Jump();
 
-        transform.Rotate(Vector3.up * mouseHorizontal);
-        cam.Rotate(Vector3.right * -mouseVertical);
+
+        // Clamp the pitch to avoid over-rotation
+        turn.y = Mathf.Clamp(turn.y, -90f, 90f);
+
+        // Apply rotation to the player (yaw) and camera (pitch) using Quaternion.Euler
+        transform.localRotation = Quaternion.Euler(0, turn.x, 0); // Horizontal rotation for the player
+        cam.localRotation = Quaternion.Euler(turn.y, 0, 0);       // Vertical rotation for the camera
         transform.Translate(velocity, Space.World);
     }
     private void Update()
     {
         GetPlayerInputs();
-        
+
     }
 
     void Jump()
@@ -61,7 +71,7 @@ public class Player : MonoBehaviour
             verticalMomentum += Time.fixedDeltaTime * gravity;
 
         //If were sprinting, use sprint multiplier
-        if (isSprinting) 
+        if (isSprinting)
             velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * sprintSpeed;
         else
             velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * walkSpeed;
@@ -83,8 +93,12 @@ public class Player : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        mouseHorizontal = Input.GetAxis("Mouse X");
-        mouseVertical = Input.GetAxis("Mouse Y");
+        mouseHorizontal = Input.GetAxis("Mouse X") * mouseSensitivity;
+        mouseVertical = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        turn.x += mouseHorizontal;
+        turn.y -= mouseVertical;
+        // Clamp the pitch to avoid over-rotation
+        turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
         if (Input.GetButtonDown("Sprint"))
             isSprinting = true;
@@ -95,13 +109,13 @@ public class Player : MonoBehaviour
             jumpRequest = true;
     }
 
-    private float checkDownSpeed (float downSpeed)
+    private float checkDownSpeed(float downSpeed)
     {
         if (
-            world.CheckForVoxel(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth ) ||
-            world.CheckForVoxel(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth ) ||
-            world.CheckForVoxel(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth ) ||
-            world.CheckForVoxel(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth ) 
+            world.CheckForVoxel(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth) ||
+            world.CheckForVoxel(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth) ||
+            world.CheckForVoxel(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth) ||
+            world.CheckForVoxel(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth)
             )
         {
             isGrounded = true;
@@ -130,7 +144,7 @@ public class Player : MonoBehaviour
             return upSpeed;
         }
     }
-    
+
     public bool front
     {
         get

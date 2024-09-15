@@ -26,8 +26,8 @@ public class World : MonoBehaviour
     private void Update()
     {
         playerChunkCoord = GetChunkCoordFromVector3(player.position);
-        //if (!playerChunkCoord.Equals(playerLastChunkCoord))
-        //    CheckViewDistance();
+        if (!playerChunkCoord.Equals(playerLastChunkCoord))
+            CheckViewDistance();
     }
     void GenerateWorld()
     {
@@ -47,6 +47,14 @@ public class World : MonoBehaviour
         int x = Mathf.FloorToInt(pos.x / VoxelData.ChunkWidth);
         int z = Mathf.FloorToInt(pos.z / VoxelData.ChunkWidth);
         return new ChunkCoord(x, z);
+    }
+    public Chunk GetChunkFromVector3(Vector3 pos)
+    {
+
+        int x = Mathf.FloorToInt(pos.x / VoxelData.ChunkWidth);
+        int z = Mathf.FloorToInt(pos.z / VoxelData.ChunkWidth);
+        return chunks[x, z];
+
     }
     void CheckViewDistance()
     {
@@ -90,8 +98,11 @@ public class World : MonoBehaviour
         int xChunk = xCheck / VoxelData.ChunkWidth;
         int zChunk = zCheck / VoxelData.ChunkWidth;
 
+        if (chunks[xChunk, zChunk] == null)
+            return false;
+
         xCheck -= (xChunk * VoxelData.ChunkWidth);
-        zCheck -= (zChunk * VoxelData.ChunkWidth);    
+        zCheck -= (zChunk * VoxelData.ChunkWidth);
 
         return blockTypes[chunks[xChunk, zChunk].voxelMap[xCheck, yCheck, zCheck]].isSolid;
     }

@@ -473,6 +473,8 @@ MonoBehaviour:
   jumpForce: 5
   gravity: -9.8
   playerWidth: 0.15
+  mouseSensitivity: 4
+  turn: {x: 0, y: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
