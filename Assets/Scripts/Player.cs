@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     public float checkIncrement = 0.1f;
     public float reach = 8f;
 
-    public Text selectedBlockText;
     public byte selectedBlockIndex = 1;
 
 
@@ -46,7 +45,6 @@ public class Player : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
         Cursor.visible = false;
-        selectedBlockText.text = world.blockTypes[selectedBlockIndex].blockName + " Block Selected";
 
     }
 
@@ -156,18 +154,6 @@ public class Player : MonoBehaviour
         if (isGrounded && Input.GetButtonDown("Jump"))
             jumpRequest = true;
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        if (scroll != 0)
-        {
-            if (scroll > 0) selectedBlockIndex++;
-            else selectedBlockIndex--;
-            if (selectedBlockIndex > (byte)(world.blockTypes.Length - 1))
-                selectedBlockIndex = 1;
-            if (selectedBlockIndex < 1)
-                selectedBlockIndex = (byte)(world.blockTypes.Length - 1);
-            selectedBlockText.text = world.blockTypes[selectedBlockIndex].blockName + " Block Selected";
-        }
         if (highlightBlock.gameObject.activeSelf)
         {
             //destroy block
