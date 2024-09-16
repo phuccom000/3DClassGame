@@ -32,15 +32,22 @@ public class World : MonoBehaviour
     private void Update()
     {
         playerChunkCoord = GetChunkCoordFromVector3(player.position);
+
         if (!playerChunkCoord.Equals(playerLastChunkCoord))
             CheckViewDistance();
 
         if (chunksToCreate.Count > 0 && !isCreatingChunks)
             StartCoroutine("CreateChunks");
 
+        // Check if all chunks are created after chunk creation process
+        if (!isCreatingChunks && !AreAllChunksCreated())
+            StartCoroutine("CreateChunks");
+
         if (Input.GetKeyDown(KeyCode.F3))
             debugScreen.SetActive(!debugScreen.activeSelf);
     }
+
+
     void GenerateWorld()
     {
         for (int x = (VoxelData.WorldSizeInChunks / 2) - VoxelData.ViewDistanceInChunks; x < (VoxelData.WorldSizeInChunks / 2) + VoxelData.ViewDistanceInChunks; x++)
@@ -83,6 +90,7 @@ public class World : MonoBehaviour
         return chunks[x, z];
 
     }
+
     void CheckViewDistance()
     {
         ChunkCoord coord = GetChunkCoordFromVector3(player.position);
@@ -189,6 +197,23 @@ public class World : MonoBehaviour
             return true;
         }
         else return false;
+    }
+    bool AreAllChunksCreated()
+    {
+        ChunkCoord coord = GetChunkCoordFromVector3(player.position);
+
+        for (int x = coord.x - VoxelData.ViewDistanceInChunks; x < coord.x + VoxelData.ViewDistanceInChunks; x++)
+        {
+            for (int z = coord.z - VoxelData.ViewDistanceInChunks; z < coord.z + VoxelData.ViewDistanceInChunks; z++)
+            {
+                if (IsChunkInWorld(new ChunkCoord(x, z)) && chunks[x, z] == null)
+                {
+                    return false;  // A chunk is still missing
+                }
+            }
+        }
+
+        return true;  // All chunks within the view distance are created
     }
 }
 
