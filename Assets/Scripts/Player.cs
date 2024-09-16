@@ -137,10 +137,21 @@ public class Player : MonoBehaviour
         // Clamp the pitch to avoid over-rotation
         turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
+        // Toggle sprint when the sprint key is pressed
         if (Input.GetButtonDown("Sprint"))
-            isSprinting = true;
-        if (Input.GetButtonUp("Sprint"))
-            isSprinting = false;
+        {
+            isSprinting = !isSprinting;
+        }
+
+        // If the sprint key is held or was toggled on, keep sprinting while movement keys are pressed
+        if (isSprinting)
+        {
+            if (horizontal == 0 && vertical == 0)
+            {
+                isSprinting = false; // Stop sprinting when no movement keys are pressed
+            }
+        }
+
 
         if (isGrounded && Input.GetButtonDown("Jump"))
             jumpRequest = true;
