@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             step += checkIncrement;
         }
         highlightBlock.gameObject.SetActive(false);
-        //placeBlock.gameObject.SetActive(false);
+        placeBlock.gameObject.SetActive(false);
     }
     private void GetPlayerInputs()
     {
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
 
             //place block
             if (Input.GetMouseButtonDown(1))
-                world.GetChunkFromVector3(highlightBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+                world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
         }
     }
 

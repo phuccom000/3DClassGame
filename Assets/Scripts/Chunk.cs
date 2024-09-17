@@ -74,6 +74,7 @@ public class Chunk
 		vertexIndex = 0;
 		vertices.Clear();
 		triangles.Clear();
+		transparentTriangles.Clear();
 		uvs.Clear();
 		colors.Clear();
 	}
