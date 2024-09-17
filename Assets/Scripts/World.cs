@@ -24,6 +24,8 @@ public class World : MonoBehaviour
     ChunkCoord playerLastChunkCoord;
 
     List<ChunkCoord> chunksToCreate = new List<ChunkCoord>();
+    public Queue<Chunk> chunksToDraw = new Queue<Chunk>();
+
 
     private bool isCreatingChunks;
     public GameObject debugScreen;
