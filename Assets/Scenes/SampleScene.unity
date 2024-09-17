@@ -163,11 +163,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  player: {fileID: 966997503}
   biome: {fileID: 11400000, guid: 55d142d012b754947ba195bebfcc3551, type: 2}
+  enableThreading: 1
   globalLightLevel: 0
   day: {r: 0.41506588, g: 0.78216845, b: 0.9992947, a: 1}
   night: {r: 0.009790567, g: 0.027156176, b: 0.09019608, a: 1}
+  player: {fileID: 966997503}
   spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
   transparentMaterial: {fileID: 2100000, guid: b786d7db63da4cc4bb072aaa6e1ed498, type: 2}
