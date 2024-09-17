@@ -18,6 +18,8 @@ public class Chunk
 	List<Color> colors = new List<Color>();
 
 	public byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+	public Queue<VoxelMod> modifications = new Queue<VoxelMod>();
+
 	[SerializeField] World world;
 
 	private bool _isActive;
@@ -51,8 +53,15 @@ public class Chunk
 		UpdateChunk();
 	}
 
-	void UpdateChunk()
+	public void UpdateChunk()
 	{
+		while (modifications.Count > 0)
+		{
+			VoxelMod v = modifications.Dequeue();
+			Vector3 pos = v.position -= position;
+			voxelMap[(int)pos.x, (int)pos.y, (int)pos.z] = v.id;
+		}
+
 		ClearMeshData();
 		for (int y = 0; y < VoxelData.ChunkHeight; y++)
 		{
