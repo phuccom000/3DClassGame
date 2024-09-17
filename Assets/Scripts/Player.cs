@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             step += checkIncrement;
         }
         highlightBlock.gameObject.SetActive(false);
-        //placeBlock.gameObject.SetActive(false);
+        placeBlock.gameObject.SetActive(false);
     }
     private void GetPlayerInputs()
     {
