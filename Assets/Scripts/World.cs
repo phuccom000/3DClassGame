@@ -28,6 +28,10 @@ public class World : MonoBehaviour
     List<Chunk> chunksToUpdate = new List<Chunk>();
     bool applyingModifications = false;
     Queue<VoxelMod> modifications = new Queue<VoxelMod>();
+    public Queue<Chunk> chunksToDraw = new Queue<Chunk>();
+
+
+    private bool isCreatingChunks;
     public GameObject debugScreen;
 
     private void Start()
