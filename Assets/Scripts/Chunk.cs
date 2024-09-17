@@ -57,6 +57,22 @@ public class Chunk
 		Thread myThread = new Thread(new ThreadStart(PopulateVoxelMap));
 		myThread.Start();
 	}
+
+	void PopulateVoxelMap()
+	{
+		for (int y = 0; y < VoxelData.ChunkHeight; y++)
+		{
+			for (int x = 0; x < VoxelData.ChunkWidth; x++)
+			{
+				for (int z = 0; z < VoxelData.ChunkWidth; z++)
+				{
+					voxelMap[x, y, z] = world.GetVoxel(new Vector3(x, y, z) + position);
+				}
+			}
+		}
+		_updateChunk();
+		isVoxelMapPopulated = true;
+	}
 	public void UpdateChunk()
 	{
 
@@ -116,14 +132,6 @@ public class Chunk
 		}
 	}
 
-	bool IsVoxelInChunk(int x, int y, int z)
-	{
-		if (x < 0 || x >= VoxelData.ChunkWidth || y < 0 || y >= VoxelData.ChunkHeight || z < 0 || z >= VoxelData.ChunkWidth)
-		{
-			return false;
-		}
-		else return true;
-	}
 
 	public bool isEditable
 	{
@@ -137,7 +145,15 @@ public class Chunk
 				return true;
 
 		}
+	}
 
+	bool IsVoxelInChunk(int x, int y, int z)
+	{
+		if (x < 0 || x >= VoxelData.ChunkWidth || y < 0 || y >= VoxelData.ChunkHeight || z < 0 || z >= VoxelData.ChunkWidth)
+		{
+			return false;
+		}
+		else return true;
 	}
 
 	public void EditVoxel(Vector3 pos, byte newID)
@@ -151,7 +167,7 @@ public class Chunk
 
 		voxelMap[xCheck, yCheck, zCheck] = newID;
 		UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
-		UpdateChunk();
+		_updateChunk();
 	}
 
 	public void UpdateSurroundingVoxels(int x, int y, int z)
@@ -187,32 +203,14 @@ public class Chunk
 		int yCheck = Mathf.FloorToInt(pos.y);
 		int zCheck = Mathf.FloorToInt(pos.z);
 
-		xCheck -= Mathf.FloorToInt(chunkObject.transform.position.x);
-		zCheck -= Mathf.FloorToInt(chunkObject.transform.position.z);
+		xCheck -= Mathf.FloorToInt(position.x);
+		zCheck -= Mathf.FloorToInt(position.z);
 
 		return voxelMap[xCheck, yCheck, zCheck];
 	}
 
-	void PopulateVoxelMap()
-	{
+	
 
-		for (int y = 0; y < VoxelData.ChunkHeight; y++)
-		{
-			for (int x = 0; x < VoxelData.ChunkWidth; x++)
-			{
-				for (int z = 0; z < VoxelData.ChunkWidth; z++)
-				{
-
-					voxelMap[x, y, z] = world.GetVoxel(new Vector3(x, y, z) + position);
-
-				}
-			}
-		}
-
-		UpdateChunk();
-		isVoxelMapPopulated = true;
-
-	}
 	void UpdateMeshData(Vector3 pos)
 	{
 		byte blockID = voxelMap[(int)pos.x, (int)pos.y, (int)pos.z];
@@ -274,7 +272,7 @@ public class Chunk
 		}
 	}
 
-	void CreateMesh()
+	public void CreateMesh()
 	{
 		Mesh mesh = new Mesh();
 		mesh.vertices = vertices.ToArray();
