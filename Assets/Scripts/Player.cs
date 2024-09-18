@@ -68,9 +68,10 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             world.inUI = !world.inUI;
+            Cursor.visible = !Cursor.visible;
         }
 
         if (!world.inUI)

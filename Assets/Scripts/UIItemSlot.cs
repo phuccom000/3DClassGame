@@ -11,6 +11,7 @@ public class UIItemSlot : MonoBehaviour
     public Image slotImage;
     public Image slotIcon;
     public Text slotAmount;
+    private string slotItemName;
 
     World world;
 
@@ -54,6 +55,7 @@ public class UIItemSlot : MonoBehaviour
         if (itemSlot != null && itemSlot.HasItem)
         {
             slotIcon.sprite = world.blockTypes[itemSlot.stack.id].icon;
+            slotItemName = world.blockTypes[itemSlot.stack.id].blockName;
             slotAmount.text = itemSlot.stack.amount.ToString();
             Debug.Log(itemSlot.stack.amount.ToString());
             slotIcon.enabled = true;
@@ -69,8 +71,13 @@ public class UIItemSlot : MonoBehaviour
     {
         slotIcon.sprite = null;
         slotAmount.text = "";
+        slotItemName = "";
         slotIcon.enabled = false;
         slotAmount.enabled = false;
+    }
+    public string GetSlotItemName()
+    {
+        return slotItemName;
     }
 
     private void OnDestroy()

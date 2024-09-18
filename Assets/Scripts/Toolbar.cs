@@ -25,7 +25,8 @@ public class Toolbar : MonoBehaviour
             ItemSlot slot = new ItemSlot(s, stack);
             index++;
         }
-
+        if (slots[slotIndex].HasItem)
+            selectedItemText.text = slots[slotIndex].GetSlotItemName();
     }
 
     private void Update()
@@ -43,6 +44,8 @@ public class Toolbar : MonoBehaviour
             if (slotIndex < 0)
                 slotIndex = slots.Length - 1;
             highlight.position = slots[slotIndex].slotIcon.transform.position;
+            if (slots[slotIndex].HasItem)
+                selectedItemText.text = slots[slotIndex].GetSlotItemName();
         }
     }
 }

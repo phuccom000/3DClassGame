@@ -24,18 +24,18 @@ public class DragAndDropHandler : MonoBehaviour
     private void Update()
     {
         if (!world.inUI)
-        {
             return;
-        }
 
         cursorSlot.transform.position = Input.mousePosition;
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (CheckForSlot() != null)
-            {
-                HandleSlotClick(CheckForSlot());
-            }
+            HandleSlotClick(CheckForSlot());
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            cursorItemSlot.EmptySlot();
+            cursorSlot.UpdateSlot();
         }
     }
 
@@ -43,9 +43,10 @@ public class DragAndDropHandler : MonoBehaviour
     {
         if (clickedSlot == null)
         {
+            cursorItemSlot.EmptySlot();
+            cursorSlot.UpdateSlot(); // Ensure the UI is updated after clearing the slot
             return;
         }
-
         // If your hand is EMPTY and you click on an EMPTY slot
         if (!cursorSlot.HasItem && !clickedSlot.HasItem)
         {
@@ -75,7 +76,7 @@ public class DragAndDropHandler : MonoBehaviour
         // If your hand is holding item slot and you click on an item slot
         if (cursorSlot.HasItem && clickedSlot.HasItem)
         {
-            // If both of them are DIFFERENCE objects
+            // If both of them are DIFFERENT objects
             if (cursorSlot.itemSlot.stack.id != clickedSlot.itemSlot.stack.id)
             {
                 ItemStack oldCursorSlot = cursorSlot.itemSlot.TakeAll();
@@ -83,12 +84,14 @@ public class DragAndDropHandler : MonoBehaviour
                 clickedSlot.itemSlot.InsertStack(oldCursorSlot);
                 cursorSlot.itemSlot.InsertStack(oldSlot);
             }
-
             // If both of them are SAME objects
             // if () {
 
             // }
+            return;
+
         }
+
     }
 
     private UIItemSlot CheckForSlot()
