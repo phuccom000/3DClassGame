@@ -22,6 +22,7 @@ public class World : MonoBehaviour
     public Vector3 spawnPosition;
     public Material material;
     public Material transparentMaterial;
+    public Material waterMaterial;
     public BlockType[] blockTypes;
 
     Chunk[,] chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
@@ -58,6 +59,10 @@ public class World : MonoBehaviour
             ChunkUpdateThread = new Thread(new ThreadStart(ThreadedUpdate));
             ChunkUpdateThread.Start();
         }
+
+        // Vid 25 fix problem from vid 24
+        // LoadWorld();
+
         spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight - 50f, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
         GenerateWorld();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
@@ -117,6 +122,31 @@ public class World : MonoBehaviour
         ChunkCoord c = chunksToCreate[0];
         chunksToCreate.RemoveAt(0);
         chunks[c.x, c.z].Init();
+    }
+
+    public void AddChunkToUpdate(Chunk chunk)
+    {
+        AddChunkToUpdate(chunk, false);
+    }
+
+    public void AddChunkToUpdate(Chunk chunk, bool insert)
+    {
+        // Lock list to ensure only one thing is using the list at a time
+        lock (ChunkUpdateThreadLock)
+        {
+            // Make sure update list doesn't already contain chunk
+            if (!chunksToUpdate.Contains(chunk))
+            {
+                if (insert)
+                {
+                    chunksToUpdate.Insert(0, chunk);
+                }
+                else
+                {
+                    chunksToUpdate.Add(chunk);
+                }
+            }
+        }
     }
 
     void UpdateChunks()
@@ -292,6 +322,8 @@ public class World : MonoBehaviour
         // if bottom block of chunk, return bedrock
         if (yPos == 0) return 1;
 
+        // Vid 28 - 9:40 min
+
         /*basic terrain pass*/
 
         int terrainHeight = Mathf.FloorToInt(biome.terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.terrainScale)) + biome.solidGroundHeight;
@@ -354,8 +386,10 @@ public class BlockType
 {
     public string blockName;
     public bool isSolid;
+    public VoxelMeshData meshData;
     public bool renderNeighborFaces;
-    public float transparency;
+    public bool isWater;
+    public byte opacity;
     public Sprite icon;
 
     [Header("Texture Values")]
