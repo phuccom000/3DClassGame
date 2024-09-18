@@ -151,9 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb1c4443a14e834698abeaa6edd356d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 0
+  settings:
+    version: 0.0.01
+    viewDistance: 5
+    enableThreading: 1
+    mouseSensitivity: 5
+    seed: 4524234
+    isCreativeMode: 0
   biome: {fileID: 11400000, guid: 55d142d012b754947ba195bebfcc3551, type: 2}
-  enableThreading: 1
   globalLightLevel: 1
   day: {r: 0.41506588, g: 0.78216845, b: 0.9992947, a: 1}
   night: {r: 0.009790567, g: 0.027156176, b: 0.09019608, a: 1}
@@ -1042,7 +1047,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrounded: 0
   isSprinting: 0
-  isCreativeMode: 1
   walkSpeed: 3
   sprintSpeed: 6
   jumpForce: 5
@@ -1050,7 +1054,6 @@ MonoBehaviour:
   flightSpeed: 8
   flightSprintSpeed: 12
   playerWidth: 0.15
-  mouseSensitivity: 4
   turn: {x: 0, y: 0}
   highlightBlock: {fileID: 1074434262}
   placeBlock: {fileID: 1891894155}
@@ -2278,7 +2281,7 @@ MonoBehaviour:
   - {fileID: 1031170696}
   - {fileID: 1407375725}
   - {fileID: 297672509}
-  player: {fileID: 0}
+  world: {fileID: 86082664}
   highlight: {fileID: 1319097856}
   selectedItemText: {fileID: 273360897}
   slotIndex: 0
