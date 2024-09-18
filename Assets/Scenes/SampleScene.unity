@@ -978,10 +978,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrounded: 0
   isSprinting: 0
+  isCreativeMode: 1
   walkSpeed: 3
   sprintSpeed: 6
   jumpForce: 5
   gravity: -9.8
+  flightSpeed: 8
+  flightSprintSpeed: 12
   playerWidth: 0.15
   mouseSensitivity: 4
   turn: {x: 0, y: 0}
