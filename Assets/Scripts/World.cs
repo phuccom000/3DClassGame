@@ -40,6 +40,10 @@ public class World : MonoBehaviour
     private bool _inUI = false;
 
     public GameObject debugScreen;
+
+    public GameObject creativeInventoryWindow;
+    public GameObject cursorSlot;
+
     Thread ChunkUpdateThread;
     public object ChunkUpdateThreadLock = new Object();
     private void Start()
@@ -262,6 +266,18 @@ public class World : MonoBehaviour
         set
         {
             _inUI = value;
+            if (_inUI)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                creativeInventoryWindow.SetActive(true);
+                cursorSlot.SetActive(true);
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                creativeInventoryWindow.SetActive(false);
+                cursorSlot.SetActive(false);
+            }
         }
     }
 
