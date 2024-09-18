@@ -44,7 +44,7 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
-*.sln
+# *.sln
 *.suo
 *.tmp
 *.user
@@ -80,23 +80,3 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-/Library
-Library/ArtifactDB
-Library/Bee/1900b0aE-inputdata.json
-Library/Bee/1900b0aE.dag
-Library/Bee/1900b0aE.dag.json
-Library/Bee/1900b0aE.dag.outputdata
-Library/Bee/1900b0aE.dag.payloads
-Library/Bee/1900b0aE.dag_derived
-Library/Bee/backend1.traceevents
-Library/Bee/backend2.traceevents
-Library/Bee/bee_backend.info
-Library/Bee/buildprogram0.traceevents
-Library/Bee/fullprofile.json
-Library/Bee/tundra.digestcache
-Library/Bee/tundra.log.json
-Library/Bee/TundraBuildState.state
-Library/Bee/TundraBuildState.state.map
-Library/EditorUserBuildSettings.asset
-Library/InspectorExpandedItems.asset
-/Library
