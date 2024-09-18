@@ -9,7 +9,7 @@ public class Toolbar : MonoBehaviour
 {
     public UIItemSlot[] slots;
     // World world;
-    public Player player;
+    public World world;
     public RectTransform highlight;
     public Text selectedItemText;
 
@@ -27,25 +27,49 @@ public class Toolbar : MonoBehaviour
         }
         if (slots[slotIndex].HasItem)
             selectedItemText.text = slots[slotIndex].GetSlotItemName();
+        if (!world.inUI)
+        {
+            Debug.Log("In UI");
+            highlight.gameObject.SetActive(true);
+            selectedItemText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Out UI");
+            highlight.gameObject.SetActive(false);
+            selectedItemText.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scroll != 0)
+        if (!world.inUI)
         {
-            if (scroll > 0)
-                slotIndex--;
-            else slotIndex++;
+            //Debug.Log("In UI");
+            highlight.gameObject.SetActive(true);
+            selectedItemText.gameObject.SetActive(true);
+            if (scroll != 0)
+            {
+                if (scroll > 0)
+                    slotIndex--;
+                else slotIndex++;
 
-            if (slotIndex > slots.Length - 1)
-                slotIndex = 0;
-            if (slotIndex < 0)
-                slotIndex = slots.Length - 1;
-            highlight.position = slots[slotIndex].slotIcon.transform.position;
-            if (slots[slotIndex].HasItem)
-                selectedItemText.text = slots[slotIndex].GetSlotItemName();
+                if (slotIndex > slots.Length - 1)
+                    slotIndex = 0;
+                if (slotIndex < 0)
+                    slotIndex = slots.Length - 1;
+
+                highlight.position = slots[slotIndex].slotIcon.transform.position;
+            }
         }
+        else
+        {
+            //Debug.Log("Out UI");
+            highlight.gameObject.SetActive(false);
+            selectedItemText.gameObject.SetActive(false);
+        }
+        selectedItemText.text = slots[slotIndex].GetSlotItemName();
     }
 }

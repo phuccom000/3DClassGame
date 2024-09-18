@@ -2217,7 +2217,7 @@ MonoBehaviour:
   - {fileID: 1031170696}
   - {fileID: 1407375725}
   - {fileID: 297672509}
-  player: {fileID: 0}
+  world: {fileID: 86082664}
   highlight: {fileID: 1319097856}
   selectedItemText: {fileID: 273360897}
   slotIndex: 0
