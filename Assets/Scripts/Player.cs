@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
     private void placeCursorBlocks()
     {
         float step = checkIncrement;
-        Vector3 lastPos = new Vector3();
+        Vector3Int lastPos = new Vector3Int();
         while (step < reach)
         {
             Vector3 pos = cam.position + cam.forward * step;
@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
 
                 return;
             }
-            lastPos = new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+            lastPos = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
 
             step += checkIncrement;
         }
@@ -158,11 +158,11 @@ public class Player : MonoBehaviour
         {
             //destroy block
             if (Input.GetMouseButtonDown(0))
-                world.GetChunkFromVector3(highlightBlock.position).EditVoxel(highlightBlock.position, 0);
+                world.GetChunkFromVector3(highlightBlock.position).EditVoxel(Vector3Int.FloorToInt(highlightBlock.position), 0);
 
             //place block
             if (Input.GetMouseButtonDown(1))
-                world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+                world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), selectedBlockIndex);
         }
     }
 
