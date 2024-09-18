@@ -17,6 +17,7 @@ public class Chunk
 	Material[] materials = new Material[3];
 	List<Vector2> uvs = new List<Vector2>();
 	List<Color> colors = new List<Color>();
+	List<Vector3> normals = new List<Vector3>();
 
 	public Vector3Int position;
 	public VoxelState[,,] voxelMap = new VoxelState[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
@@ -26,6 +27,8 @@ public class Chunk
 
 	private bool _isActive;
 	public bool isVoxelMapPopulated = false;
+	// clip 26
+	//ChunkData chunkData;
 
 
 	public Chunk(ChunkCoord _coord, World _world)
@@ -254,14 +257,47 @@ public class Chunk
 
 	void UpdateMeshData(Vector3Int pos)
 	{
-		int x = pos.x;
-		int y = pos.y;
-		int z = pos.z;
+		int x = Mathf.FloorToInt(pos.x);
+		int y = Mathf.FloorToInt(pos.y);
+		int z = Mathf.FloorToInt(pos.z);
 
 		byte blockID = voxelMap[x, y, z].id;
-		//bool isTransparent = world.blockTypes[blockID].renderNeighborFaces;
+		bool isTransparent = world.blockTypes[blockID].renderNeighborFaces;
+		//VoxelState voxel = chunkData.map[x, y, z]; - clip 26
 		for (int p = 0; p < 6; p++)
 		{
+			// clip 26
+			// VoxelState neighbour = chunkData.map[x,y,z].neighbours[p];
+			// if (neighbour != null && neighbour.properties.renderNeighborFaces) {
+			// 	float lightLevel = neighbour.lightAsFloat;
+			// 	int faveVertCount = 0;
+
+			// 	for(int i = 0; i < voxel.properties.meshData.faces[p].vertData.Length; i++) {
+			// 		vertices.Add(pos + voxel.properties.meshData.faces[p].vertData[i].position);
+			// 		normals.Add(voxel.properties.meshData.faces[p].normal);
+			// 		colors.Add(new Color(0,0,0, lightLevel));
+			// 		AddTexture(voxel.properties.GetTextureID(p), voxel.properties.meshData.faces[p].vertData[i].uv);
+			// 		faveVertCount++;
+			// 	}
+
+			// 	if (!voxel.properties.renderNeighborFaces) {
+			// 		for (int i = 0; i < voxel.properties.meshData.faces[p].triangles.Length; i++)
+			// 		{
+			// 			triangles.Add(vertexIndex + voxel.properties.meshData.faces[p].triangles[i]);
+			// 		}
+			// 	}
+			// 	else {
+			// 		for (int i = 0; i < voxel.properties.meshData.faces[p].triangles.Length; i++)
+			// 		{
+			// 			transparentTriangles.Add(vertexIndex + voxel.properties.meshData.faces[p].triangles[i]);
+			// 		}
+			// 	}
+
+			// 	vertexIndex += faveVertCount;
+			// }
+			
+			// Delete all of this code accordinng to clip 26 - 13:32
+			
 			VoxelState neighbor = CheckVoxel(pos + VoxelData.faceChecks[p]);
 			// Vid 28 - 15:10 min
 			if (neighbor != null && world.blockTypes[neighbor.id].renderNeighborFaces)
@@ -302,7 +338,8 @@ public class Chunk
 				// Vid 28 - 7 min
 
 				vertexIndex += 4;
-			}
+			} 
+			
 		}
 	}
 
@@ -322,6 +359,29 @@ public class Chunk
 
 		meshFilter.mesh = mesh;
 	}
+
+	// clip 26
+	// void AddTexture(int textureID, Vector2 uv)
+	// {
+	// 	float y = textureID / VoxelData.TextureAtlasSizeInBlocks;
+	// 	float x = textureID - (y * VoxelData.TextureAtlasSizeInBlocks);
+
+	// 	x *= VoxelData.NormalizeBlockTextureSize;
+	// 	y *= VoxelData.NormalizeBlockTextureSize;
+
+	// 	y = 1f - y - VoxelData.NormalizeBlockTextureSize;
+
+	// 	// Get rid of this according to clip 26 - 17:39
+	// 	// uvs.Add(new Vector2(x, y));
+	// 	// uvs.Add(new Vector2(x, y + VoxelData.NormalizeBlockTextureSize));
+	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y));
+	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y + VoxelData.NormalizeBlockTextureSize));
+	
+	// 	x += VoxelData.NormalizeBlockTextureSize * uv.x;
+	// 	y += VoxelData.NormalizeBlockTextureSize * uv.y;
+
+	// 	uvs.Add(new Vector2(x,y));
+	// }
 
 	void AddTexture(int textureID)
 	{

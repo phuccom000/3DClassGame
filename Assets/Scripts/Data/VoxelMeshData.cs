@@ -41,6 +41,7 @@ public class FaceMeshData {
     // for each face and use that for each vert in the face.
 
     public string direction; // Purely to make things easier to read in the inspector.
+    public Vector3 normal;
     public VertData[] vertData;
     public int[] triangles;
 
