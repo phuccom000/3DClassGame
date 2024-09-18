@@ -158,7 +158,10 @@ MonoBehaviour:
     mouseSensitivity: 5
     seed: 4524234
     isCreativeMode: 0
-  biome: {fileID: 11400000, guid: 55d142d012b754947ba195bebfcc3551, type: 2}
+  biomes:
+  - {fileID: 11400000, guid: 55d142d012b754947ba195bebfcc3551, type: 2}
+  - {fileID: 11400000, guid: bc49c355092b7264ebe35aa45dea0841, type: 2}
+  - {fileID: 11400000, guid: dc7a37086d3547a42912b1828a7c57fa, type: 2}
   globalLightLevel: 1
   day: {r: 0.41506588, g: 0.78216845, b: 0.9992947, a: 1}
   night: {r: 0.009790567, g: 0.027156176, b: 0.09019608, a: 1}
@@ -317,7 +320,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 5
-    icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    icon: {fileID: 1381748725, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 16
     frontFaceTexture: 16
     topFaceTexture: 16
@@ -330,26 +333,26 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
-    backFaceTexture: 16
-    frontFaceTexture: 16
-    topFaceTexture: 16
-    bottomFaceTexture: 16
-    leftFaceTexture: 16
-    rightFaceTexture: 16
+    icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    backFaceTexture: 18
+    frontFaceTexture: 18
+    topFaceTexture: 19
+    bottomFaceTexture: 19
+    leftFaceTexture: 18
+    rightFaceTexture: 18
   - blockName: Cactus Top
     isSolid: 1
     meshData: {fileID: 0}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
-    backFaceTexture: 16
-    frontFaceTexture: 16
-    topFaceTexture: 16
-    bottomFaceTexture: 16
-    leftFaceTexture: 16
-    rightFaceTexture: 16
+    icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    backFaceTexture: 18
+    frontFaceTexture: 18
+    topFaceTexture: 17
+    bottomFaceTexture: 19
+    leftFaceTexture: 18
+    rightFaceTexture: 18
   - blockName: Water
     isSolid: 1
     meshData: {fileID: 11400000, guid: e00425fa606c42b49abe324437c44872, type: 2}

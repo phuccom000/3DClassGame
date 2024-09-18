@@ -9,7 +9,7 @@ public class World : MonoBehaviour
 {
     public Settings settings;
     [Header("World Generation Values")]
-    public BiomeAttributes biome;
+    public BiomeAttributes[] biomes;
 
     [Range(0f, 1f)]
     public float globalLightLevel;
@@ -75,12 +75,18 @@ public class World : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        playerChunkCoord = GetChunkCoordFromVector3(player.position);
+    public void SetGlobalLightValue () {
+
         Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
         Camera.main.backgroundColor = Color.Lerp(night, day, globalLightLevel);
 
+    }
+
+    private void Update() {
+        
+        playerChunkCoord = GetChunkCoordFromVector3(player.position);
+
+        // Only update the chunks if the player has moved from the chunk they were previously on.
         if (!playerChunkCoord.Equals(playerLastChunkCoord))
             CheckViewDistance();
 
@@ -330,15 +336,57 @@ public class World : MonoBehaviour
 
         // Vid 28 - 9:40 min
 
-        /*basic terrain pass*/
+        /*biome selection pass*/
+         int solidGroundHeight = 42;
+        float sumOfHeights = 0f;
+        int count = 0;
+        float strongestWeight = 0f;
+        int strongestBiomeIndex = 0;
 
-        int terrainHeight = Mathf.FloorToInt(biome.terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.terrainScale)) + biome.solidGroundHeight;
+        for (int i = 0; i < biomes.Length; i++) {
+
+            float weight = Noise.Get2DPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].scale);
+
+            // Keep track of which weight is strongest.
+            if (weight > strongestWeight) {
+
+                strongestWeight = weight;
+                strongestBiomeIndex = i;
+
+            }
+
+            // Get the height of the terrain (for the current biome) and multiply it by its weight.
+            float height = biomes[i].terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biomes[i].terrainScale) * weight;
+
+            // If the height value is greater 0 add it to the sum of heights.
+            if (height > 0) {
+
+                sumOfHeights += height;
+                count++;
+
+            }
+
+        }
+
+        // Set biome to the one with the strongest weight.
+        BiomeAttributes biome = biomes[strongestBiomeIndex];
+
+        // Get the average of the heights.
+        sumOfHeights /= count;
+
+        int terrainHeight = Mathf.FloorToInt(sumOfHeights + solidGroundHeight);
+
+
+        //BiomeAttributes biome = biomes[index];
+
+
+        /*basic terrain pass*/
         byte voxelValue = 0;
 
         if (yPos == terrainHeight)
-            voxelValue = 3;
+            voxelValue = biome.surfaceBlock;
         else if (yPos < terrainHeight && yPos > terrainHeight - 4)
-            voxelValue = 5;
+            voxelValue = biome.subSurfaceBlock;
         else if (yPos > terrainHeight)
             return 0;
         else
@@ -355,13 +403,13 @@ public class World : MonoBehaviour
         }
 
         /*tree pass*/
-        if (yPos == terrainHeight)
+        if (yPos == terrainHeight && biome.placeMajorFlora)
         {
-            if (Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.treeZoneScale) > biome.treeZoneThreshold)
+            if (Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.majorFloraZoneScale) > biome.majorFloraZoneThreshold)
             {
-                if (Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.treePlacementScale) > biome.treePlacementThreshold)
+                if (Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biome.majorFloraPlacementScale) > biome.majorFloraPlacementThreshold)
                 {
-                    modifications.Enqueue(Structure.MakeTree(pos, biome.minTreeHeight, biome.maxTreeHeight));
+                    modifications.Enqueue(Structure.GenerateMajorFlora(biome.majorFloraIndex, pos, biome.minHeight, biome.maxHeight));
                 }
             }
         }
