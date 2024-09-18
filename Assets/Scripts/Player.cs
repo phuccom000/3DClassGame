@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     public bool isGrounded;
     public bool isSprinting;
+    public bool isCreativeMode = false; // Creative flight mode toggle
 
     private Transform cam;
     private World world;
@@ -16,6 +17,8 @@ public class Player : MonoBehaviour
     public float sprintSpeed = 6f;
     public float jumpForce = 5f;
     public float gravity = -9.8f;
+    public float flightSpeed = 8f; // Speed for creative flight
+    public float flightSprintSpeed = 12f; // Sprinting speed for creative flight
 
     public float playerWidth = 0.15f;
     //public float boundsTolerance = 0.1f;
@@ -53,16 +56,14 @@ public class Player : MonoBehaviour
         if (!world.inUI)
         {
             CalculateVelocity();
-            if (jumpRequest)
+            if (!isCreativeMode && jumpRequest)
                 Jump();
-
 
             // Clamp the pitch to avoid over-rotation
             turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
-            // Apply rotation to the player (yaw) and camera (pitch) using Quaternion.Euler
-            transform.localRotation = Quaternion.Euler(0, turn.x, 0); // Horizontal rotation for the player
-            cam.localRotation = Quaternion.Euler(turn.y, 0, 0);       // Vertical rotation for the camera
+            transform.localRotation = Quaternion.Euler(0, turn.x, 0);
+            cam.localRotation = Quaternion.Euler(turn.y, 0, 0);
             transform.Translate(velocity, Space.World);
         }
     }
@@ -74,13 +75,22 @@ public class Player : MonoBehaviour
             Cursor.visible = !Cursor.visible;
         }
 
+        if (Input.GetKeyDown(KeyCode.F1)) // Toggle creative mode
+        {
+            isCreativeMode = !isCreativeMode;
+            if (isCreativeMode)
+            {
+                verticalMomentum = 0; // Reset vertical momentum when entering creative mode
+            }
+        }
+
         if (!world.inUI)
         {
             GetPlayerInputs();
             placeCursorBlocks();
         }
-
     }
+
 
     void Jump()
     {
@@ -90,27 +100,46 @@ public class Player : MonoBehaviour
     }
     private void CalculateVelocity()
     {
-        // affect vertical momentum with gravity
-        if (verticalMomentum > gravity)
-            verticalMomentum += Time.fixedDeltaTime * gravity;
+        if (isCreativeMode)
+        {
+            float currentFlightSpeed = isSprinting ? flightSprintSpeed : flightSpeed;
 
-        //If were sprinting, use sprint multiplier
-        if (isSprinting)
-            velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * sprintSpeed;
+            velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * currentFlightSpeed;
+
+            if (Input.GetKey(KeyCode.Space)) // Ascend
+            {
+                velocity.y = currentFlightSpeed * Time.fixedDeltaTime;
+            }
+            else if (Input.GetKey(KeyCode.LeftShift)) // Descend
+            {
+                velocity.y = -currentFlightSpeed * Time.fixedDeltaTime;
+            }
+            else
+            {
+                velocity.y = 0; // No vertical movement when neither key is pressed
+            }
+        }
         else
-            velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * walkSpeed;
+        {
+            if (verticalMomentum > gravity)
+                verticalMomentum += Time.fixedDeltaTime * gravity;
 
-        //Aplly vertical momentum (falling/jumping)
-        velocity += Vector3.up * verticalMomentum * Time.fixedDeltaTime;
+            if (isSprinting)
+                velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * sprintSpeed;
+            else
+                velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * walkSpeed;
 
-        if ((velocity.z > 0 && front) || (velocity.z < 0 && back))
-            velocity.z = 0;
-        if ((velocity.x > 0 && right) || (velocity.x < 0 && left))
-            velocity.x = 0;
-        if (velocity.y < 0)
-            velocity.y = checkDownSpeed(velocity.y);
-        else if (velocity.y > 0)
-            velocity.y = checkUpSpeed(velocity.y);
+            velocity += Vector3.up * verticalMomentum * Time.fixedDeltaTime;
+
+            if (velocity.z > 0 && front || velocity.z < 0 && back)
+                velocity.z = 0;
+            if (velocity.x > 0 && right || velocity.x < 0 && left)
+                velocity.x = 0;
+            if (velocity.y < 0)
+                velocity.y = checkDownSpeed(velocity.y);
+            else if (velocity.y > 0)
+                velocity.y = checkUpSpeed(velocity.y);
+        }
     }
     private void placeCursorBlocks()
     {
@@ -144,46 +173,35 @@ public class Player : MonoBehaviour
         mouseVertical = Input.GetAxis("Mouse Y") * mouseSensitivity;
         turn.x += mouseHorizontal;
         turn.y -= mouseVertical;
-        // Clamp the pitch to avoid over-rotation
-        turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
-        // Toggle sprint when the sprint key is pressed
         if (Input.GetButtonDown("Sprint"))
         {
             isSprinting = !isSprinting;
         }
 
-        // If the sprint key is held or was toggled on, keep sprinting while movement keys are pressed
-        if (isSprinting)
+        if (isSprinting && horizontal == 0 && vertical == 0)
         {
-            if (horizontal == 0 && vertical == 0)
-            {
-                isSprinting = false; // Stop sprinting when no movement keys are pressed
-            }
+            isSprinting = false;
         }
 
-
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        if (!isCreativeMode && isGrounded && Input.GetButtonDown("Jump"))
+        {
             jumpRequest = true;
+        }
 
         if (highlightBlock.gameObject.activeSelf)
         {
-            //destroy block
             if (Input.GetMouseButtonDown(0))
                 world.GetChunkFromVector3(highlightBlock.position).EditVoxel(Vector3Int.FloorToInt(highlightBlock.position), 0);
 
-            //place block
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && toolbar.slots[toolbar.slotIndex].HasItem)
             {
-                if (toolbar.slots[toolbar.slotIndex].HasItem)
-                {
-                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
+                world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
+                if (!isCreativeMode)
                     toolbar.slots[toolbar.slotIndex].itemSlot.Take(1);
-                }
             }
         }
     }
-
     private float checkDownSpeed(float downSpeed)
     {
         if (
