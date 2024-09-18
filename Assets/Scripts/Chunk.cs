@@ -17,8 +17,8 @@ public class Chunk
 	List<Vector2> uvs = new List<Vector2>();
 	List<Color> colors = new List<Color>();
 
-	public Vector3 position;
-	public byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
+	public Vector3Int position;
+	public VoxelState[,,] voxelMap = new VoxelState[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
 	public Queue<VoxelMod> modifications = new Queue<VoxelMod>();
 
 	[SerializeField] World world;
@@ -47,7 +47,11 @@ public class Chunk
 		chunkObject.transform.SetParent(world.transform);
 		chunkObject.transform.position = new Vector3(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
 		chunkObject.name = "Chunk " + coord.x + ", " + coord.z;
-		position = chunkObject.transform.position;
+
+		position.x = Mathf.FloorToInt(chunkObject.transform.position.x);
+		position.y = Mathf.FloorToInt(chunkObject.transform.position.y);
+		position.z = Mathf.FloorToInt(chunkObject.transform.position.z);
+
 
 		PopulateVoxelMap();
 	}
@@ -60,7 +64,7 @@ public class Chunk
 			{
 				for (int z = 0; z < VoxelData.ChunkWidth; z++)
 				{
-					voxelMap[x, y, z] = world.GetVoxel(new Vector3(x, y, z) + position);
+					voxelMap[x, y, z] = new VoxelState(world.GetVoxel(new Vector3(x, y, z) + position));
 				}
 			}
 		}
@@ -79,18 +83,21 @@ public class Chunk
 		{
 			VoxelMod v = modifications.Dequeue();
 			Vector3 pos = v.position -= position;
-			voxelMap[(int)pos.x, (int)pos.y, (int)pos.z] = v.id;
+			voxelMap[(int)pos.x, (int)pos.y, (int)pos.z].id = v.id;
 		}
 
 		ClearMeshData();
+
+		CalculateLight();
+
 		for (int y = 0; y < VoxelData.ChunkHeight; y++)
 		{
 			for (int x = 0; x < VoxelData.ChunkWidth; x++)
 			{
 				for (int z = 0; z < VoxelData.ChunkWidth; z++)
 				{
-					if (world.blockTypes[voxelMap[x, y, z]].isSolid)
-						UpdateMeshData(new Vector3(x, y, z));
+					if (world.blockTypes[voxelMap[x, y, z].id].isSolid)
+						UpdateMeshData(new Vector3Int(x, y, z));
 				}
 			}
 		}
@@ -99,6 +106,51 @@ public class Chunk
 			world.chunksToDraw.Enqueue(this);
 		}
 
+	}
+
+	void CalculateLight()
+	{
+		Queue<Vector3Int> litVoxels = new Queue<Vector3Int>();
+		for (int x = 0; x < VoxelData.ChunkWidth; x++)
+		{
+			for (int z = 0; z < VoxelData.ChunkWidth; z++)
+			{
+				float lightRay = 1f;
+				for (int y = VoxelData.ChunkHeight - 1; y >= 0; y--)
+				{
+					VoxelState thisVoxel = voxelMap[x, y, z];
+					if (thisVoxel.id > 0 && world.blockTypes[thisVoxel.id].transparency < lightRay)
+						lightRay = world.blockTypes[thisVoxel.id].transparency;
+
+					thisVoxel.globalLightPercent = lightRay;
+					voxelMap[x, y, z] = thisVoxel;
+
+					if (lightRay > VoxelData.lightFalloff)
+						litVoxels.Enqueue(new Vector3Int(x, y, z));
+				}
+
+			}
+		}
+		while (litVoxels.Count > 0)
+		{
+			Vector3Int v = litVoxels.Dequeue();
+			for (int p = 0; p < 6; p++)
+			{
+				Vector3 currentVoxel = v + VoxelData.faceChecks[p];
+				Vector3Int neighbor = new Vector3Int((int)currentVoxel.x, (int)currentVoxel.y, (int)currentVoxel.z);
+
+				if (IsVoxelInChunk(neighbor.x, neighbor.y, neighbor.z))
+				{
+					if (voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent < voxelMap[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff)
+					{
+						voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent = voxelMap[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff;
+						if (voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent > VoxelData.lightFalloff)
+							litVoxels.Enqueue(neighbor);
+					}
+
+				}
+			}
+		}
 	}
 
 	void ClearMeshData()
@@ -142,16 +194,16 @@ public class Chunk
 		else return true;
 	}
 
-	public void EditVoxel(Vector3 pos, byte newID)
+	public void EditVoxel(Vector3Int pos, byte newID)
 	{
-		int xCheck = Mathf.FloorToInt(pos.x);
-		int yCheck = Mathf.FloorToInt(pos.y);
-		int zCheck = Mathf.FloorToInt(pos.z);
+		int xCheck = pos.x;
+		int yCheck = pos.y;
+		int zCheck = pos.z;
 
-		xCheck -= Mathf.FloorToInt(chunkObject.transform.position.x);
-		zCheck -= Mathf.FloorToInt(chunkObject.transform.position.z);
+		xCheck -= position.x;
+		zCheck -= position.z;
 
-		voxelMap[xCheck, yCheck, zCheck] = newID;
+		voxelMap[xCheck, yCheck, zCheck].id = newID;
 
 		lock (world.ChunkUpdateThreadLock)
 		{
@@ -173,41 +225,44 @@ public class Chunk
 			}
 		}
 	}
-	bool CheckVoxel(Vector3 pos)
+	public VoxelState CheckVoxel(Vector3Int pos)
 	{
-		int x = Mathf.FloorToInt(pos.x);
-		int y = Mathf.FloorToInt(pos.y);
-		int z = Mathf.FloorToInt(pos.z);
+		int x = pos.x;
+		int y = pos.y;
+		int z = pos.z;
 
 		if (!IsVoxelInChunk(x, y, z))
 		{
-			return world.CheckIfVoxelTransparent(pos + position);
+			return world.GetVoxelState(pos + position);
 		}
 
-		return world.blockTypes[voxelMap[x, y, z]].isTransparent;
+		return voxelMap[x, y, z];
 	}
 
-	public byte GetVoxelFromGlobalVector3(Vector3 pos)
+	public VoxelState GetVoxelFromGlobalVector3(Vector3 pos)
 	{
-		int xCheck = Mathf.FloorToInt(pos.x);
-		int yCheck = Mathf.FloorToInt(pos.y);
-		int zCheck = Mathf.FloorToInt(pos.z);
+		Vector3Int posCheck = Vector3Int.FloorToInt(pos);
 
-		xCheck -= Mathf.FloorToInt(position.x);
-		zCheck -= Mathf.FloorToInt(position.z);
+		posCheck.x -= position.x;
+		posCheck.z -= position.z;
 
-		return voxelMap[xCheck, yCheck, zCheck];
+		return voxelMap[posCheck.x, posCheck.y, posCheck.z];
 	}
 
 
 
-	void UpdateMeshData(Vector3 pos)
+	void UpdateMeshData(Vector3Int pos)
 	{
-		byte blockID = voxelMap[(int)pos.x, (int)pos.y, (int)pos.z];
-		bool isTransparent = world.blockTypes[blockID].isTransparent;
+		int x = pos.x;
+		int y = pos.y;
+		int z = pos.z;
+
+		byte blockID = voxelMap[x, y, z].id;
+		//bool isTransparent = world.blockTypes[blockID].renderNeighborFaces;
 		for (int p = 0; p < 6; p++)
 		{
-			if (CheckVoxel(pos + VoxelData.faceChecks[p]))
+			VoxelState neighbor = CheckVoxel(pos + VoxelData.faceChecks[p]);
+			if (neighbor != null && world.blockTypes[neighbor.id].renderNeighborFaces)
 			{
 				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 0]]);
 				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 1]]);
@@ -216,23 +271,7 @@ public class Chunk
 
 				AddTexture(world.blockTypes[blockID].GetTextureID(p));
 
-				float lightLevel;
-
-				int yPos = (int)pos.y + 1;
-				bool inShade = false;
-				while (yPos < VoxelData.ChunkHeight)
-				{
-					if (voxelMap[(int)pos.x, yPos, (int)pos.z] != 0)
-					{
-						inShade = true;
-						break;
-					}
-					yPos++;
-				}
-
-				if (inShade)
-					lightLevel = 0.4f;
-				else lightLevel = 0f;
+				float lightLevel = neighbor.globalLightPercent;
 
 				colors.Add(new Color(0, 0, 0, lightLevel));
 				colors.Add(new Color(0, 0, 0, lightLevel));
@@ -334,5 +373,24 @@ public class ChunkCoord
 			return false;
 	}
 
+
+}
+
+public class VoxelState
+{
+	public byte id;
+	public float globalLightPercent;
+
+	public VoxelState()
+	{
+		id = 0;
+		globalLightPercent = 0f;
+	}
+
+	public VoxelState(byte _id)
+	{
+		id = _id;
+		globalLightPercent = 0f;
+	}
 
 }
