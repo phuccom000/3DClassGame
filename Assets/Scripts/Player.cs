@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public float checkIncrement = 0.1f;
     public float reach = 8f;
 
-    public byte selectedBlockIndex = 1;
+    public Toolbar toolbar;
 
 
     private void Start()
@@ -50,23 +50,34 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CalculateVelocity();
-        if (jumpRequest)
-            Jump();
+        if (!world.inUI)
+        {
+            CalculateVelocity();
+            if (jumpRequest)
+                Jump();
 
 
-        // Clamp the pitch to avoid over-rotation
-        turn.y = Mathf.Clamp(turn.y, -90f, 90f);
+            // Clamp the pitch to avoid over-rotation
+            turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
-        // Apply rotation to the player (yaw) and camera (pitch) using Quaternion.Euler
-        transform.localRotation = Quaternion.Euler(0, turn.x, 0); // Horizontal rotation for the player
-        cam.localRotation = Quaternion.Euler(turn.y, 0, 0);       // Vertical rotation for the camera
-        transform.Translate(velocity, Space.World);
+            // Apply rotation to the player (yaw) and camera (pitch) using Quaternion.Euler
+            transform.localRotation = Quaternion.Euler(0, turn.x, 0); // Horizontal rotation for the player
+            cam.localRotation = Quaternion.Euler(turn.y, 0, 0);       // Vertical rotation for the camera
+            transform.Translate(velocity, Space.World);
+        }
     }
     private void Update()
     {
-        GetPlayerInputs();
-        placeCursorBlocks();
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            world.inUI = !world.inUI;
+        }
+
+        if (!world.inUI)
+        {
+            GetPlayerInputs();
+            placeCursorBlocks();
+        }
 
     }
 
@@ -162,7 +173,13 @@ public class Player : MonoBehaviour
 
             //place block
             if (Input.GetMouseButtonDown(1))
-                world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+            {
+                if (toolbar.slots[toolbar.slotIndex].HasItem)
+                {
+                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
+                    toolbar.slots[toolbar.slotIndex].itemSlot.Take(1);
+                }
+            }
         }
     }
 

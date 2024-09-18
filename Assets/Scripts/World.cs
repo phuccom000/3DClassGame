@@ -37,6 +37,7 @@ public class World : MonoBehaviour
     bool applyingModifications = false;
     Queue<Queue<VoxelMod>> modifications = new Queue<Queue<VoxelMod>>();
 
+    private bool _inUI = false;
 
     public GameObject debugScreen;
     Thread ChunkUpdateThread;
@@ -250,6 +251,15 @@ public class World : MonoBehaviour
             return blockTypes[chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos)].isTransparent;
 
         return blockTypes[GetVoxel(pos)].isTransparent;
+    }
+
+    public bool inUI
+    {
+        get { return _inUI; }
+        set
+        {
+            _inUI = value;
+        }
     }
 
     public byte GetVoxel(Vector3 pos)

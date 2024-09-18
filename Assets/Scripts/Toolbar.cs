@@ -7,24 +7,24 @@ using UnityEngine.UI;
 
 public class Toolbar : MonoBehaviour
 {
-    World world;
+    public UIItemSlot[] slots;
+    // World world;
     public Player player;
     public RectTransform highlight;
-    public ItemSlot[] itemSlots;
     public Text selectedItemText;
 
-    int slotIndex = 0;
+    public int slotIndex = 0;
     private void Start()
     {
-        world = GameObject.Find("World").GetComponent<World>();
+        // world = GameObject.Find("World").GetComponent<World>();
 
-        foreach (ItemSlot slot in itemSlots)
+        byte index = 1;
+        foreach (UIItemSlot s in slots)
         {
-            slot.icon.sprite = world.blockTypes[slot.itemID].icon;
-            slot.icon.enabled = true;
-            selectedItemText.text = world.blockTypes[itemSlots[slotIndex].itemID].blockName;
+            ItemStack stack = new ItemStack(index, Random.Range(2, 65));
+            ItemSlot slot = new ItemSlot(s, stack);
+            index++;
         }
-        player.selectedBlockIndex = itemSlots[slotIndex].itemID;
 
     }
 
@@ -37,20 +37,12 @@ public class Toolbar : MonoBehaviour
             if (scroll > 0)
                 slotIndex--;
             else slotIndex++;
-            if (slotIndex > itemSlots.Length - 1)
+
+            if (slotIndex > slots.Length - 1)
                 slotIndex = 0;
             if (slotIndex < 0)
-                slotIndex = itemSlots.Length - 1;
-            highlight.position = itemSlots[slotIndex].icon.transform.position;
-            player.selectedBlockIndex = itemSlots[slotIndex].itemID;
-            selectedItemText.text = world.blockTypes[itemSlots[slotIndex].itemID].blockName;
+                slotIndex = slots.Length - 1;
+            highlight.position = slots[slotIndex].slotIcon.transform.position;
         }
     }
-}
-[System.Serializable]
-public class ItemSlot
-{
-    public byte itemID;
-    public Image icon;
-
 }
