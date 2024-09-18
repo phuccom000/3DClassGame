@@ -57,7 +57,7 @@ public class UIItemSlot : MonoBehaviour
             slotIcon.sprite = world.blockTypes[itemSlot.stack.id].icon;
             slotItemName = world.blockTypes[itemSlot.stack.id].blockName;
             slotAmount.text = itemSlot.stack.amount.ToString();
-            Debug.Log(itemSlot.stack.amount.ToString());
+            //Debug.Log(itemSlot.stack.amount.ToString());
             slotIcon.enabled = true;
             slotAmount.enabled = true;
         }

@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
 {
     public bool isGrounded;
     public bool isSprinting;
-    public bool isCreativeMode = false; // Creative flight mode toggle
-
     private Transform cam;
     private World world;
 
@@ -27,7 +25,6 @@ public class Player : MonoBehaviour
     private float vertical;
     private float mouseHorizontal;
     private float mouseVertical;
-    public float mouseSensitivity = 5f; // Adjusted sensitivity to a reasonable level
     public Vector2 turn;
     private Vector3 velocity;
     private float verticalMomentum = 0;
@@ -56,14 +53,14 @@ public class Player : MonoBehaviour
         if (!world.inUI)
         {
             CalculateVelocity();
-            if (!isCreativeMode && jumpRequest)
+            if (!world.settings.isCreativeMode && jumpRequest)
                 Jump();
 
             // Clamp the pitch to avoid over-rotation
             turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
-            transform.localRotation = Quaternion.Euler(0, turn.x, 0);
-            cam.localRotation = Quaternion.Euler(turn.y, 0, 0);
+            transform.localRotation = Quaternion.Euler(0, turn.x * world.settings.mouseSensitivity, 0);
+            cam.localRotation = Quaternion.Euler(turn.y * world.settings.mouseSensitivity, 0, 0);
             transform.Translate(velocity, Space.World);
         }
     }
@@ -77,8 +74,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1)) // Toggle creative mode
         {
-            isCreativeMode = !isCreativeMode;
-            if (isCreativeMode)
+            world.settings.isCreativeMode = !world.settings.isCreativeMode;
+            if (world.settings.isCreativeMode)
             {
                 verticalMomentum = 0; // Reset vertical momentum when entering creative mode
             }
@@ -100,7 +97,7 @@ public class Player : MonoBehaviour
     }
     private void CalculateVelocity()
     {
-        if (isCreativeMode)
+        if (world.settings.isCreativeMode)
         {
             float currentFlightSpeed = isSprinting ? flightSprintSpeed : flightSpeed;
 
@@ -169,8 +166,8 @@ public class Player : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        mouseHorizontal = Input.GetAxis("Mouse X") * mouseSensitivity;
-        mouseVertical = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        mouseHorizontal = Input.GetAxis("Mouse X");
+        mouseVertical = Input.GetAxis("Mouse Y");
         turn.x += mouseHorizontal;
         turn.y -= mouseVertical;
 
@@ -184,7 +181,7 @@ public class Player : MonoBehaviour
             isSprinting = false;
         }
 
-        if (!isCreativeMode && isGrounded && Input.GetButtonDown("Jump"))
+        if (!world.settings.isCreativeMode && isGrounded && Input.GetButtonDown("Jump"))
         {
             jumpRequest = true;
         }
@@ -197,7 +194,7 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && toolbar.slots[toolbar.slotIndex].HasItem)
             {
                 world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
-                if (!isCreativeMode)
+                if (!world.settings.isCreativeMode)
                     toolbar.slots[toolbar.slotIndex].itemSlot.Take(1);
             }
         }
