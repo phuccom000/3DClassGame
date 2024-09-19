@@ -55,8 +55,12 @@ public class TitleMenu : MonoBehaviour
 
     public void StartGame()
     {
+        int rawSeed = Mathf.Abs(seedField.text.GetHashCode()) / VoxelData.WorldCentre;
 
-        VoxelData.seed = Mathf.Abs(seedField.text.GetHashCode()) / VoxelData.WorldCentre;
+        // Clamp the seed to a maximum of 8 digits
+        VoxelData.seed = Mathf.Clamp(rawSeed, 1, 99999999);
+
+        Debug.Log("Generated Seed: " + VoxelData.seed);  // For debugging purposes
         SceneManager.LoadScene("World", LoadSceneMode.Single);
 
     }

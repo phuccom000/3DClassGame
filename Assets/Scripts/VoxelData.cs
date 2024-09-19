@@ -7,7 +7,7 @@ public static class VoxelData
 
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 128;
-    public static readonly int WorldSizeInChunks = 1000;
+    public static readonly int WorldSizeInChunks = 100;
 
     //lighting values
     public static float minLightLevel = 0.15f;
@@ -29,7 +29,7 @@ public static class VoxelData
         // Light is handled as float (0-1) but Minecraft stores light as a byte (0-15), so we need to how much of that float a single light level represents.
         get { return 1f / 16f; }
 
-    } // Added from git of clip 26
+    }
     public static float lightFalloff = 0.08f;
 
     public static int WorldSizeInVoxels

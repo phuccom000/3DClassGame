@@ -266,9 +266,9 @@ public class Clouds : MonoBehaviour
     private int CloudTileCoordFromFloat(float value)
     {
 
-        float a = value / (float)cloudTexWidth; // Gets the position using cloudtexture width as units.
+        float a = value / cloudTexWidth; // Gets the position using cloudtexture width as units.
         a -= Mathf.FloorToInt(a); // Subtract whole numbers to get a 0-1 value representing position in cloud texture.
-        int b = Mathf.FloorToInt((float)cloudTexWidth * a); // Multiply cloud texture width by a to get position in texture globally.
+        int b = Mathf.FloorToInt(cloudTexWidth * a); // Multiply cloud texture width by a to get position in texture globally.
 
         return b;
 

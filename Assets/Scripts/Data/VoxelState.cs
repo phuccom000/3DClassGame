@@ -157,7 +157,7 @@
 
 //     public BlockType properties {
 
-//         // get { return World.Instance.blocktypes[id]; }
+//         // get { return World.Instance.blockTypes[id]; }
 //         get { return World.Instance.blockTypes[id]; } // Clip 27
 
 //     }

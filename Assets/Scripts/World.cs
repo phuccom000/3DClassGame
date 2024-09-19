@@ -22,7 +22,7 @@ public class World : MonoBehaviour
     public Material material;
     public Material transparentMaterial;
     public Material waterMaterial;
-    public BlockType[] blocktypes;
+    public BlockType[] blockTypes;
 
     Chunk[,] chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
 
@@ -51,7 +51,7 @@ public class World : MonoBehaviour
 
     private static World _instance; // Clip 27
     public static World Instance { get { return _instance; } } // Clip 27
-    public WorldData worldData = new WorldData(); // Clip 27
+    public WorldData worldData; // Clip 27
     public string appPath; // Clip 27
 
     // Clip 27
@@ -67,11 +67,12 @@ public class World : MonoBehaviour
 
         appPath = Application.persistentDataPath;
 
-        //     _player = player.GetComponent<Player>();
+        _player = player.GetComponent<Player>();
     }
-private void Start()
+    private void Start()
     {
         Debug.Log("World is generated with the seed: " + VoxelData.seed);
+        worldData = SaveSystem.LoadWorld("Testing");
 
         //string jsonExport = JsonUtility.ToJson(settings);
         //Debug.Log(jsonExport);
@@ -88,11 +89,12 @@ private void Start()
         Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
 
         // Vid 25 fix problem from vid 24
-        // LoadWorld();
+        LoadWorld();
 
         SetGlobalLightValue();
         spawnPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);
-        //GenerateWorld();
+        player.position = spawnPosition;
+        CheckViewDistance();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
         if (settings.enableThreading)
@@ -292,7 +294,7 @@ private void Start()
 
         VoxelState voxel = worldData.GetVoxel(pos);
 
-        if (blocktypes[voxel.id].isSolid)
+        if (blockTypes[voxel.id].isSolid)
             return true;
         else
             return false;
@@ -301,16 +303,7 @@ private void Start()
 
     public VoxelState GetVoxelState(Vector3Int pos)
     {
-        ChunkCoord thisChunk = new ChunkCoord(pos);
-
-        //if (!IsVoxelInWorld(pos)) 
-        if (!IsChunkInWorld(thisChunk) || pos.y < 0 || pos.y > VoxelData.ChunkHeight)
-            return null;
-
-        if (chunks[thisChunk.x, thisChunk.z] != null && chunks[thisChunk.x, thisChunk.z].isEditable)
-            return chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos);
-
-        return new VoxelState(GetVoxel(pos));
+        return worldData.GetVoxel(pos);
     }
 
     public bool inUI
@@ -322,12 +315,14 @@ private void Start()
             if (_inUI)
             {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 creativeInventoryWindow.SetActive(true);
                 cursorSlot.SetActive(true);
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 creativeInventoryWindow.SetActive(false);
                 cursorSlot.SetActive(false);
             }
@@ -442,10 +437,10 @@ private void Start()
     bool IsVoxelInWorld(Vector3 pos)
     {
         if (pos.x >= 0 && pos.x < VoxelData.WorldSizeInVoxels && pos.y >= 0 && pos.y < VoxelData.ChunkHeight && pos.z >= 0 && pos.z < VoxelData.WorldSizeInVoxels)
-        {
             return true;
-        }
-        else return false;
+        else
+            return false;
+
     }
 }
 

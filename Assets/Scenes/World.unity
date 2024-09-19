@@ -168,7 +168,7 @@ MonoBehaviour:
   day: {r: 0.41506588, g: 0.78216845, b: 0.9992947, a: 1}
   night: {r: 0.009790567, g: 0.027156176, b: 0.09019608, a: 1}
   player: {fileID: 966997503}
-  _player: {fileID: 0}
+  _player: {fileID: 966997504}
   spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
   transparentMaterial: {fileID: 2100000, guid: 9bd70c006693ec445ad257fbd43bb4f0, type: 2}
@@ -402,6 +402,9 @@ MonoBehaviour:
   debugScreen: {fileID: 1916488532}
   creativeInventoryWindow: {fileID: 1174822718}
   cursorSlot: {fileID: 417428004}
+  worldData:
+    worldName: 
+    seed: 0
   appPath: 
 --- !u!4 &86082665
 Transform:

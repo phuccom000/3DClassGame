@@ -20,7 +20,7 @@ public class Chunk
 	List<Vector3> normals = new List<Vector3>();
 
 	public Vector3Int position;
-	
+
 	private bool _isActive;
 	// clip 26
 	ChunkData chunkData;
@@ -47,19 +47,21 @@ public class Chunk
 		chunkObject.transform.position = new Vector3(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
 		chunkObject.name = "Chunk " + coord.x + ", " + coord.z;
 
-        chunkData = World.Instance.worldData.RequestChunk(new Vector2Int((int)position.x, (int)position.z), true);
+		//DO NOT CHANGE
+		position = Vector3Int.FloorToInt(chunkObject.transform.position);
 
-        lock (World.Instance.ChunkUpdateThreadLock)
-            World.Instance.chunksToUpdate.Add(this);
+		chunkData = World.Instance.worldData.RequestChunk(new Vector2Int(position.x, position.z), true);
 
-        if (World.Instance.settings.enableAnimatedChunks)
-            chunkObject.AddComponent<ChunkLoadAnimation>();
+		lock (World.Instance.ChunkUpdateThreadLock)
+			World.Instance.chunksToUpdate.Add(this);
 
-        //DO NOT CHANGE
-        position = Vector3Int.FloorToInt(chunkObject.transform.position);
+		if (World.Instance.settings.enableAnimatedChunks)
+			chunkObject.AddComponent<ChunkLoadAnimation>();
+
+
 	}
 
-	
+
 
 	public void UpdateChunk()
 	{
@@ -74,7 +76,7 @@ public class Chunk
 			{
 				for (int z = 0; z < VoxelData.ChunkWidth; z++)
 				{
-					if (World.Instance.blocktypes[chunkData.map[x, y, z].id].isSolid)
+					if (World.Instance.blockTypes[chunkData.map[x, y, z].id].isSolid)
 						UpdateMeshData(new Vector3Int(x, y, z));
 				}
 			}
@@ -97,8 +99,8 @@ public class Chunk
 				for (int y = VoxelData.ChunkHeight - 1; y >= 0; y--)
 				{
 					VoxelState thisVoxel = chunkData.map[x, y, z];
-					if (thisVoxel.id > 0 && World.Instance.blocktypes[thisVoxel.id].transparency < lightRay)
-						lightRay = World.Instance.blocktypes[thisVoxel.id].transparency;
+					if (thisVoxel.id > 0 && World.Instance.blockTypes[thisVoxel.id].transparency < lightRay)
+						lightRay = World.Instance.blockTypes[thisVoxel.id].transparency;
 
 					thisVoxel.globalLightPercent = lightRay;
 					chunkData.map[x, y, z] = thisVoxel;
@@ -172,9 +174,9 @@ public class Chunk
 		zCheck -= position.z;
 
 		chunkData.map[xCheck, yCheck, zCheck].id = newID;
-        World.Instance.worldData.AddToModifiedChunkList(chunkData);
+		World.Instance.worldData.AddToModifiedChunkList(chunkData);
 
-        lock (World.Instance.ChunkUpdateThreadLock)
+		lock (World.Instance.ChunkUpdateThreadLock)
 		{
 			World.Instance.AddChunkToUpdate(this, true);
 			UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
@@ -293,9 +295,9 @@ public class Chunk
 			// if (neighbour != null && neighbour.properties.renderNeighborFaces) {
 			// 	float lightLevel = neighbour.lightAsFloat;
 			// 	int faveVertCount = 0;
-				
+
 			// 	for(int i = 0; i < voxel.properties.meshData.faces[p].vertData.Length; i++) {
-					
+
 			// 		VertData vertData = voxel.properties.meshData.faces[p].GetVertData(i);
 			// 		vertices.Add(pos + voxel.properties.meshData.faces[p].vertData[i].GetRotatedPosition(new Vector3(0, rot, 0)));
 			// 		normals.Add(VoxelData.faceChecks[p]);
@@ -324,10 +326,10 @@ public class Chunk
 
 			// Delete all of the below code accordinng to clip 26 - 13:32
 			// Delete from here
-			
+
 			VoxelState neighbor = CheckVoxel(pos + VoxelData.faceChecks[p]);
 			// Vid 28 - 15:10 min
-			if (neighbor != null && World.Instance.blocktypes[neighbor.id].renderNeighborFaces)
+			if (neighbor != null && World.Instance.blockTypes[neighbor.id].renderNeighborFaces)
 			{
 				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 0]]);
 				vertices.Add(pos + VoxelData.voxelVerts[VoxelData.voxelTris[p, 1]]);
@@ -337,7 +339,7 @@ public class Chunk
 				for (int i = 0; i < 4; i++)
 					normals.Add(VoxelData.faceChecks[p]);
 
-				AddTexture(World.Instance.blocktypes[blockID].GetTextureID(p));
+				AddTexture(World.Instance.blockTypes[blockID].GetTextureID(p));
 
 				float lightLevel = neighbor.globalLightPercent;
 
@@ -346,7 +348,7 @@ public class Chunk
 				colors.Add(new Color(0, 0, 0, lightLevel));
 				colors.Add(new Color(0, 0, 0, lightLevel));
 
-				if (!World.Instance.blocktypes[neighbor.id].renderNeighborFaces)
+				if (!World.Instance.blockTypes[neighbor.id].renderNeighborFaces)
 				{
 					triangles.Add(vertexIndex);
 					triangles.Add(vertexIndex + 1);
@@ -369,7 +371,7 @@ public class Chunk
 
 				vertexIndex += 4;
 			}
-			
+
 			// Delete to here
 		}
 	}
