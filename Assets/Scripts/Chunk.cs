@@ -75,8 +75,8 @@ public class Chunk
 
 		isVoxelMapPopulated = true;
 		world.AddChunkToUpdate(this);
-
-		chunkObject.AddComponent<ChunkLoadAnimation>();
+		if (world.settings.enableAnimatedChunks)
+			chunkObject.AddComponent<ChunkLoadAnimation>();
 	}
 
 	public void UpdateChunk()

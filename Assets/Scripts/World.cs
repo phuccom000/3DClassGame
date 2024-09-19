@@ -511,11 +511,13 @@ public class Settings
 {
 
     [Header("Game Data")]
-    public string version;
+    public string version = "0.0.01";
 
     [Header("Performance")]
-    public int viewDistance;
-    public bool enableThreading;
+    public int loadDistance = 16;
+    public int viewDistance = 8;
+    public bool enableThreading = true;
+    public bool enableAnimatedChunks = false;
 
     [Header("Controls")]
     [Range(0.1f, 10f)]

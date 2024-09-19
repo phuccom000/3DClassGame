@@ -67,7 +67,7 @@ public class TitleMenu : MonoBehaviour
         mouseSlider.value = settings.mouseSensitivity;
         UpdateMouseSlider();
         threadingToggle.isOn = settings.enableThreading;
-        //chunkAnimToggle.isOn = settings.enableAnimatedChunks;
+        chunkAnimToggle.isOn = settings.enableAnimatedChunks;
 
         mainMenuObject.SetActive(false);
         settingsObject.SetActive(true);
@@ -80,7 +80,7 @@ public class TitleMenu : MonoBehaviour
         settings.viewDistance = (int)viewDstSlider.value;
         settings.mouseSensitivity = mouseSlider.value;
         settings.enableThreading = threadingToggle.isOn;
-        //settings.enableAnimatedChunks = chunkAnimToggle.isOn;
+        settings.enableAnimatedChunks = chunkAnimToggle.isOn;
 
         string jsonExport = JsonUtility.ToJson(settings);
         File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
