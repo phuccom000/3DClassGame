@@ -156,9 +156,9 @@ MonoBehaviour:
     loadDistance: 16
     viewDistance: 5
     enableThreading: 1
+    clouds: 1
     enableAnimatedChunks: 0
     mouseSensitivity: 5
-    seed: 4524234
     isCreativeMode: 0
   biomes:
   - {fileID: 11400000, guid: b247a561aa3270a498c56b20c806c159, type: 2}
@@ -398,6 +398,7 @@ MonoBehaviour:
     bottomFaceTexture: 11
     leftFaceTexture: 11
     rightFaceTexture: 11
+  clouds: {fileID: 444538941}
   debugScreen: {fileID: 1916488532}
   creativeInventoryWindow: {fileID: 1174822718}
   cursorSlot: {fileID: 417428004}
@@ -909,6 +910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloudHeight: 100
+  cloudDepth: 4
   cloudPatterns: {fileID: 2800000, guid: e6204f307e067e94e91dbd800bcbd076, type: 3}
   cloudMaterial: {fileID: 2100000, guid: 7d08406ee37276a4cb1130979509eb2b, type: 2}
   world: {fileID: 86082664}

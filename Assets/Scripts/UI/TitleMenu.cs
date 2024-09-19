@@ -82,10 +82,10 @@ public class TitleMenu : MonoBehaviour
         settings.mouseSensitivity = mouseSlider.value;
         settings.enableThreading = threadingToggle.isOn;
         settings.enableAnimatedChunks = chunkAnimToggle.isOn;
+        settings.clouds = (CloudStyle)clouds.value;
 
         string jsonExport = JsonUtility.ToJson(settings);
         File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
-        settings.clouds = (CloudStyle)clouds.value;
 
         mainMenuObject.SetActive(true);
         settingsObject.SetActive(false);
