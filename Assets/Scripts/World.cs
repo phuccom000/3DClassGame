@@ -22,7 +22,7 @@ public class World : MonoBehaviour
     public Material material;
     public Material transparentMaterial;
     public Material waterMaterial;
-    public BlockType[] blockTypes;
+    public BlockType[] blocktypes;
 
     Chunk[,] chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
 
@@ -47,6 +47,7 @@ public class World : MonoBehaviour
 
     Thread ChunkUpdateThread;
     public object ChunkUpdateThreadLock = new Object();
+    public object ChunkListThreadLock = new object();
 
     private static World _instance; // Clip 27
     public static World Instance { get { return _instance; } } // Clip 27
@@ -64,7 +65,7 @@ public class World : MonoBehaviour
         else
             _instance = this;
 
-        //     appPath = Application.persistentDataPath;
+        appPath = Application.persistentDataPath;
 
         //     _player = player.GetComponent<Player>();
     }
@@ -91,7 +92,7 @@ private void Start()
 
         SetGlobalLightValue();
         spawnPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);
-        GenerateWorld();
+        //GenerateWorld();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
         if (settings.enableThreading)
@@ -138,6 +139,9 @@ private void Start()
 
         if (Input.GetKeyDown(KeyCode.F3))
             debugScreen.SetActive(!debugScreen.activeSelf);
+
+        if (Input.GetKeyDown(KeyCode.F1))
+            SaveSystem.SaveWorld(worldData);
     }
 
 
@@ -285,16 +289,14 @@ private void Start()
     }
     public bool CheckForVoxel(Vector3 pos)
     {
-        ChunkCoord thisChunk = new ChunkCoord(pos);
 
-        //if (!IsVoxelInWorld(pos)) 
-        if (!IsChunkInWorld(thisChunk) || pos.y < 0 || pos.y > VoxelData.ChunkHeight)
+        VoxelState voxel = worldData.GetVoxel(pos);
+
+        if (blocktypes[voxel.id].isSolid)
+            return true;
+        else
             return false;
 
-        if (chunks[thisChunk.x, thisChunk.z] != null && chunks[thisChunk.x, thisChunk.z].isEditable)
-            return blockTypes[chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos).id].isSolid;
-
-        return blockTypes[GetVoxel(pos)].isSolid;
     }
 
     public VoxelState GetVoxelState(Vector3Int pos)

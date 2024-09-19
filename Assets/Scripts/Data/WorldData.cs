@@ -10,13 +10,35 @@ public class WorldData
     public string worldName = "Prototype";
     public int seed;
 
+    [System.NonSerialized]
     public Dictionary<Vector2Int, ChunkData> chunks = new Dictionary<Vector2Int, ChunkData>();
+
+    [System.NonSerialized]
+    public List<ChunkData> modifiedChunks = new List<ChunkData>();
+
+    public WorldData(string _worldName, int _seed)
+    {
+        worldName = _worldName;
+        seed = _seed;
+    }
+
+    public WorldData(WorldData wD)
+    {
+        worldName = wD.worldName;
+        seed = wD.seed;
+    }
+    public void AddToModifiedChunkList(ChunkData chunk)
+    {
+        // Only add to list if ChunkData is not already in the list.
+        if (!modifiedChunks.Contains(chunk))
+            modifiedChunks.Add(chunk);
+    }
     public ChunkData RequestChunk(Vector2Int coord, bool create)
     {
         ChunkData c;
 
-        //lock (World.Instance.ChunkListThreadLock)
-        //{
+        lock (World.Instance.ChunkListThreadLock)
+        {
 
             if (chunks.ContainsKey(coord))
                 c = chunks[coord];
@@ -30,7 +52,7 @@ public class WorldData
                 c = chunks[coord];
             }
 
-        //}
+        }
 
         return c;
     }
@@ -38,6 +60,13 @@ public class WorldData
     {
         if (chunks.ContainsKey(coord))
             return;
+        ChunkData chunk = SaveSystem.LoadChunk(worldName, coord);
+        if (chunk != null)
+        {
+            chunks.Add(coord, chunk);
+            return;
+        }
+
         chunks.Add(coord, new ChunkData(coord));
         chunks[coord].Populate();
     }
@@ -76,7 +105,7 @@ public class WorldData
 
         chunk.map[voxel.x, voxel.y, voxel.z].id = value;
 
-        //AddToModifiedChunkList(chunk);
+        AddToModifiedChunkList(chunk);
 
     }
     public VoxelState GetVoxel(Vector3 pos)
