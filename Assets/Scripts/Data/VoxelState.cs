@@ -1,4 +1,3 @@
-
 // Added from git of clip 26
 
 
@@ -10,12 +9,15 @@
 // public class VoxelState {
 
 //     public byte id;
+//     public int orientation;
 //     [System.NonSerialized] private byte _light;
 
 //     [System.NonSerialized] public ChunkData chunkData;
 
 //     [System.NonSerialized] public VoxelNeighbours neighbours;
 //     [System.NonSerialized] public Vector3Int position;
+
+//     public float globalLightPercent; // clip 27 - not necessary, only for bug free
 
 //     public byte light {
 
@@ -88,6 +90,7 @@
 //     public VoxelState(byte _id, ChunkData _chunkData, Vector3Int _position) {
 
 //         id = _id;
+//         orientation = 1;
 //         chunkData = _chunkData;
 //         neighbours = new VoxelNeighbours(this);
 //         position = _position;
@@ -154,7 +157,8 @@
 
 //     public BlockType properties {
 
-//         get { return World.Instance.blocktypes[id]; }
+//         // get { return World.Instance.blocktypes[id]; }
+//         get { return World.Instance.blockTypes[id]; } // Clip 27
 
 //     }
 

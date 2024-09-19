@@ -1,3 +1,5 @@
+// clip 27 - added to bug free
+
 
 // using System.Collections;
 // using System.Collections.Generic;
@@ -63,17 +65,19 @@
 
 //     }
 
-//     public void ModifyVoxel(Vector3Int pos, byte _id)
+//     public void ModifyVoxel(Vector3Int pos, byte _id, int direction) // Clip 27 - added paramerter int direction 
 //     {
 //         if (map[pos.x, pos.y, pos.z].id == _id)
 //             return;
 
 //         VoxelState voxel = map[pos.x, pos.y, pos.z];
-//         BlockType newVoxel = World.Instance.blocktypes[_id];
+//         // BlockType newVoxel = World.Instance.blocktypes[_id];
+//         BlockType newVoxel = World.Instance.blockTypes[_id]; // Clip 27
 
 //         byte oldOpacity = voxel.properties.opacity;
 
 //         voxel.id = _id;
+//         voxel.orientation = direction; // Clip 27
 
 //         if (voxel.properties.opacity != oldOpacity &&
 //             (pos.y == VoxelData.ChunkHeight - 1 || map[pos.x, pos.y + 1, pos.z].light == 15))

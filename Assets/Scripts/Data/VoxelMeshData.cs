@@ -34,7 +34,7 @@ public class VertData
 public class FaceMeshData
 {
     public string direction;
-    public Vector3 normal;
+    // public Vector3 normal; // deleted according to clip 27
     public VertData[] vertData;
     public int[] triangles;
 
