@@ -28,7 +28,7 @@ public class ChunkData
     [HideInInspector] //hide to avoid slowdown
     public VoxelState[,,] map = new VoxelState[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
 
-    void Populate()
+    public void Populate()
     {
         for (int y = 0; y < VoxelData.ChunkHeight; y++)
         {
@@ -36,7 +36,7 @@ public class ChunkData
             {
                 for (int z = 0; z < VoxelData.ChunkWidth; z++)
                 {
-                    map[x, y, z] = new VoxelState(world.GetVoxel(new Vector3(x, y, z) + position));
+                    map[x, y, z] = new VoxelState(World.Instance.GetVoxel(new Vector3(x + position.x, y, z + position.y)));
                 }
             }
         }

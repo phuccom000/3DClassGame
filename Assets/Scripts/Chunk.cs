@@ -20,13 +20,10 @@ public class Chunk
 	List<Vector3> normals = new List<Vector3>();
 
 	public Vector3Int position;
-	public VoxelState[,,] voxelMap = new VoxelState[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
-	public Queue<VoxelMod> modifications = new Queue<VoxelMod>();
-
+	
 	private bool _isActive;
-	public bool isVoxelMapPopulated = false;
 	// clip 26
-	//ChunkData chunkData;
+	ChunkData chunkData;
 
 
 	public Chunk(ChunkCoord _coord)
@@ -50,21 +47,16 @@ public class Chunk
 		chunkObject.transform.position = new Vector3(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
 		chunkObject.name = "Chunk " + coord.x + ", " + coord.z;
 
-		//DO NOT CHANGE
-		position = Vector3Int.FloorToInt(chunkObject.transform.position);
+        chunkData = World.Instance.worldData.RequestChunk(new Vector2Int((int)position.x, (int)position.z), true);
+
+        //DO NOT CHANGE
+        position = Vector3Int.FloorToInt(chunkObject.transform.position);
 	}
 
 	
 
 	public void UpdateChunk()
 	{
-
-		while (modifications.Count > 0)
-		{
-			VoxelMod v = modifications.Dequeue();
-			Vector3 pos = v.position -= position;
-			voxelMap[(int)pos.x, (int)pos.y, (int)pos.z].id = v.id;
-		}
 
 		ClearMeshData();
 
@@ -76,7 +68,7 @@ public class Chunk
 			{
 				for (int z = 0; z < VoxelData.ChunkWidth; z++)
 				{
-					if (World.Instance.blockTypes[voxelMap[x, y, z].id].isSolid)
+					if (World.Instance.blockTypes[chunkData.map[x, y, z].id].isSolid)
 						UpdateMeshData(new Vector3Int(x, y, z));
 				}
 			}
@@ -98,12 +90,12 @@ public class Chunk
 				float lightRay = 1f;
 				for (int y = VoxelData.ChunkHeight - 1; y >= 0; y--)
 				{
-					VoxelState thisVoxel = voxelMap[x, y, z];
+					VoxelState thisVoxel = chunkData.map[x, y, z];
 					if (thisVoxel.id > 0 && World.Instance.blockTypes[thisVoxel.id].transparency < lightRay)
 						lightRay = World.Instance.blockTypes[thisVoxel.id].transparency;
 
 					thisVoxel.globalLightPercent = lightRay;
-					voxelMap[x, y, z] = thisVoxel;
+					chunkData.map[x, y, z] = thisVoxel;
 
 					if (lightRay > VoxelData.lightFalloff)
 						litVoxels.Enqueue(new Vector3Int(x, y, z));
@@ -121,10 +113,10 @@ public class Chunk
 
 				if (IsVoxelInChunk(neighbor.x, neighbor.y, neighbor.z))
 				{
-					if (voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent < voxelMap[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff)
+					if (chunkData.map[neighbor.x, neighbor.y, neighbor.z].globalLightPercent < chunkData.map[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff)
 					{
-						voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent = voxelMap[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff;
-						if (voxelMap[neighbor.x, neighbor.y, neighbor.z].globalLightPercent > VoxelData.lightFalloff)
+						chunkData.map[neighbor.x, neighbor.y, neighbor.z].globalLightPercent = chunkData.map[v.x, v.y, v.z].globalLightPercent - VoxelData.lightFalloff;
+						if (chunkData.map[neighbor.x, neighbor.y, neighbor.z].globalLightPercent > VoxelData.lightFalloff)
 							litVoxels.Enqueue(neighbor);
 					}
 
@@ -155,18 +147,6 @@ public class Chunk
 		}
 	}
 
-
-	public bool isEditable
-	{
-		get
-		{
-			if (!isVoxelMapPopulated)
-				return false;
-			else
-				return true;
-		}
-	}
-
 	bool IsVoxelInChunk(int x, int y, int z)
 	{
 		if (x < 0 || x >= VoxelData.ChunkWidth || y < 0 || y >= VoxelData.ChunkHeight || z < 0 || z >= VoxelData.ChunkWidth)
@@ -185,7 +165,7 @@ public class Chunk
 		xCheck -= position.x;
 		zCheck -= position.z;
 
-		voxelMap[xCheck, yCheck, zCheck].id = newID;
+		chunkData.map[xCheck, yCheck, zCheck].id = newID;
 
 		lock (World.Instance.ChunkUpdateThreadLock)
 		{
@@ -229,7 +209,7 @@ public class Chunk
 			return World.Instance.GetVoxelState(pos + position);
 		}
 
-		return voxelMap[x, y, z];
+		return chunkData.map[x, y, z];
 	}
 
 	public VoxelState GetVoxelFromGlobalVector3(Vector3 pos)
@@ -239,7 +219,7 @@ public class Chunk
 		posCheck.x -= position.x;
 		posCheck.z -= position.z;
 
-		return voxelMap[posCheck.x, posCheck.y, posCheck.z];
+		return chunkData.map[posCheck.x, posCheck.y, posCheck.z];
 	}
 
 
@@ -250,7 +230,7 @@ public class Chunk
 		int y = pos.y;
 		int z = pos.z;
 
-		byte blockID = voxelMap[x, y, z].id;
+		byte blockID = chunkData.map[x, y, z].id;
 		//VoxelState voxel = chunkData.map[x, y, z]; // - clip 26
 
 		// Clip 27
