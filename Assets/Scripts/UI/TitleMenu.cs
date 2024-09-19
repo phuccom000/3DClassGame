@@ -22,6 +22,7 @@ public class TitleMenu : MonoBehaviour
     public TextMeshProUGUI mouseTxtSlider;
     public Toggle threadingToggle;
     public Toggle chunkAnimToggle;
+    public TMP_Dropdown clouds;
 
 
     Settings settings;
@@ -55,7 +56,7 @@ public class TitleMenu : MonoBehaviour
     {
 
         VoxelData.seed = Mathf.Abs(seedField.text.GetHashCode()) / VoxelData.WorldSizeInChunks;
-        SceneManager.LoadScene("main", LoadSceneMode.Single);
+        SceneManager.LoadScene("World", LoadSceneMode.Single);
 
     }
 
@@ -68,7 +69,9 @@ public class TitleMenu : MonoBehaviour
         UpdateMouseSlider();
         threadingToggle.isOn = settings.enableThreading;
         chunkAnimToggle.isOn = settings.enableAnimatedChunks;
+        clouds.value = (int)settings.clouds;
         */
+
         mainMenuObject.SetActive(false);
         settingsObject.SetActive(true);
 
@@ -84,6 +87,7 @@ public class TitleMenu : MonoBehaviour
 
         string jsonExport = JsonUtility.ToJson(settings);
         File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
+        settings.clouds = (CloudStyle)clouds.value;
         */
         mainMenuObject.SetActive(true);
         settingsObject.SetActive(false);

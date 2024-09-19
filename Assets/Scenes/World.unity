@@ -153,8 +153,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     version: 0.0.01
+    loadDistance: 16
     viewDistance: 5
     enableThreading: 1
+    enableAnimatedChunks: 0
     mouseSensitivity: 5
     seed: 4524234
     isCreativeMode: 0
@@ -381,6 +383,7 @@ MonoBehaviour:
     bottomFaceTexture: 0
     leftFaceTexture: 0
     rightFaceTexture: 0
+  clouds: {fileID: 444538941}
   debugScreen: {fileID: 1916488532}
   creativeInventoryWindow: {fileID: 1174822718}
   cursorSlot: {fileID: 417428004}
@@ -809,6 +812,106 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 817585985754237061, guid: c1f4668ff52c7c84496d47531f946956, type: 3}
   m_PrefabInstance: {fileID: 243901845}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &444538938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 444538942}
+  - component: {fileID: 444538941}
+  - component: {fileID: 444538940}
+  - component: {fileID: 444538939}
+  m_Layer: 0
+  m_Name: Clouds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!33 &444538939
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444538938}
+  m_Mesh: {fileID: 0}
+--- !u!23 &444538940
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444538938}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7d08406ee37276a4cb1130979509eb2b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &444538941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444538938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba398e44ae7a544386aed73409a3499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cloudHeight: 100
+  cloudPatterns: {fileID: 2800000, guid: e6204f307e067e94e91dbd800bcbd076, type: 3}
+  cloudMaterial: {fileID: 2100000, guid: 7d08406ee37276a4cb1130979509eb2b, type: 2}
+  world: {fileID: 86082664}
+--- !u!4 &444538942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444538938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.77391, y: 16.947803, z: 5.8586407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &866010507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2876,3 +2979,4 @@ SceneRoots:
   - {fileID: 1400881919}
   - {fileID: 1074434262}
   - {fileID: 1891894155}
+  - {fileID: 444538942}
