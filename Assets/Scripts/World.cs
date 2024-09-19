@@ -450,6 +450,7 @@ public class BlockType
     public bool renderNeighborFaces;
     public bool isWater;
     public byte opacity;
+    public float transparency;
     public Sprite icon;
 
     [Header("Texture Values")]
