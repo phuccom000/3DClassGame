@@ -162,6 +162,7 @@ public class Chunk
 		vertices.Clear();
 		triangles.Clear();
 		transparentTriangles.Clear();
+		//waterTriangles.Clear(); // Clip 29
 		uvs.Clear();
 		colors.Clear();
 		normals.Clear();
