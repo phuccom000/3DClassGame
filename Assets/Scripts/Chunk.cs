@@ -391,15 +391,15 @@ public class Chunk
 		float y = textureID / VoxelData.TextureAtlasSizeInBlocks;
 		float x = textureID - (y * VoxelData.TextureAtlasSizeInBlocks);
 
-		x *= VoxelData.NormalizeBlockTextureSize;
-		y *= VoxelData.NormalizeBlockTextureSize;
+		x *= VoxelData.NormalizedBlockTextureSize;
+		y *= VoxelData.NormalizedBlockTextureSize;
 
-		y = 1f - y - VoxelData.NormalizeBlockTextureSize;
+		y = 1f - y - VoxelData.NormalizedBlockTextureSize;
 
 		uvs.Add(new Vector2(x, y));
-		uvs.Add(new Vector2(x, y + VoxelData.NormalizeBlockTextureSize));
-		uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y));
-		uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y + VoxelData.NormalizeBlockTextureSize));
+		uvs.Add(new Vector2(x, y + VoxelData.NormalizedBlockTextureSize));
+		uvs.Add(new Vector2(x + VoxelData.NormalizedBlockTextureSize, y));
+		uvs.Add(new Vector2(x + VoxelData.NormalizedBlockTextureSize, y + VoxelData.NormalizedBlockTextureSize));
 	}
 }
 
