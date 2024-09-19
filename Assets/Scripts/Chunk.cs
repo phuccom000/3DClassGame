@@ -162,6 +162,7 @@ public class Chunk
 		vertices.Clear();
 		triangles.Clear();
 		transparentTriangles.Clear();
+		//waterTriangles.Clear(); // Clip 29
 		uvs.Clear();
 		colors.Clear();
 		normals.Clear();
@@ -214,6 +215,17 @@ public class Chunk
 			world.AddChunkToUpdate(this, true);
 			UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
 		}
+
+		// Clip 27
+		// int xCheck = pos.x;
+		// int yCheck = pos.y;
+		// int zCheck = pos.z;
+
+		// xCheck -= position.x;
+		// zCheck -= position.z;
+
+		// chunkData.ModifyVoxel(new Vector3Int(xCheck, yCheck, zCheck), newID, World.Instance._player.orientation);
+		// UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
 	}
 
 	public void UpdateSurroundingVoxels(int x, int y, int z)
@@ -262,21 +274,71 @@ public class Chunk
 		int z = pos.z;
 
 		byte blockID = voxelMap[x, y, z].id;
-		//VoxelState voxel = chunkData.map[x, y, z]; - clip 26
+		//VoxelState voxel = chunkData.map[x, y, z]; // - clip 26
+
+		// Clip 27
+		// float rot = 0f;
+		// switch(voxel.orientation) {
+		// 	case 0:
+		// 		rot = 180f;
+		// 		break;
+		// 	case 5: 
+		// 		rot = 270f;
+		// 		break;
+		// 	case 1: 
+		// 		rot = 0f;
+		// 		break;
+		// 	default: 
+		// 		rot = 90f;
+		// 		break;
+		// }
+
 		for (int p = 0; p < 6; p++)
 		{
+			// Clip 27
+			// ----- 
+			// int translatedP = p;
+
+			// if (voxel.orientation != 1) {
+
+			// 	if (voxel.orientation == 0) {
+			// 		if (p == 0) translatedP = 1;
+			// 		else if (p == 1) translatedP = 0;
+			// 		else if (p == 4) translatedP = 5;
+			// 		else if (p == 5) translatedP = 4;
+			// 	}
+			// 	else if (voxel.orientation == 5) {
+			// 		if (p == 0) translatedP = 5;
+			// 		else if (p == 1) translatedP = 4;
+			// 		else if (p == 4) translatedP = 0;
+			// 		else if (p == 5) translatedP = 1;
+			// 	} 
+			// 	else if (voxel.orientation == 4) {
+			// 		if (p == 0) translatedP = 4;
+			// 		else if (p == 1) translatedP = 5;
+			// 		else if (p == 4) translatedP = 1;
+			// 		else if (p == 5) translatedP = 0;
+			// 	} 
+			// }
+			// -----
+
 			// clip 26
+			// ---------------------------------
 			// VoxelState neighbour = chunkData.map[x,y,z].neighbours[p];
+			// //VoxelState neighbour = chunkData.map[x,y,z].neighbours[translatedP]; // Clip 27
 			// if (neighbour != null && neighbour.properties.renderNeighborFaces) {
 			// 	float lightLevel = neighbour.lightAsFloat;
 			// 	int faveVertCount = 0;
-
+				
 			// 	for(int i = 0; i < voxel.properties.meshData.faces[p].vertData.Length; i++) {
-			// 		vertices.Add(pos + voxel.properties.meshData.faces[p].vertData[i].position);
-			// 		normals.Add(voxel.properties.meshData.faces[p].normal);
+					
+			// 		VertData vertData = voxel.properties.meshData.faces[p].GetVertData(i);
+			// 		vertices.Add(pos + voxel.properties.meshData.faces[p].vertData[i].GetRotatedPosition(new Vector3(0, rot, 0)));
+			// 		normals.Add(VoxelData.faceChecks[p]);
 			// 		colors.Add(new Color(0,0,0, lightLevel));
-			// 		AddTexture(voxel.properties.GetTextureID(p), voxel.properties.meshData.faces[p].vertData[i].uv);
+			// 		AddTexture(voxel.properties.GetTextureID(p), vertData.uv);
 			// 		faveVertCount++;
+
 			// 	}
 
 			// 	if (!voxel.properties.renderNeighborFaces) {
@@ -294,9 +356,11 @@ public class Chunk
 
 			// 	vertexIndex += faveVertCount;
 			// }
+			// ------------------------------
 
-			// Delete all of this code accordinng to clip 26 - 13:32
-
+			// Delete all of the below code accordinng to clip 26 - 13:32
+			// Delete from here
+			
 			VoxelState neighbor = CheckVoxel(pos + VoxelData.faceChecks[p]);
 			// Vid 28 - 15:10 min
 			if (neighbor != null && world.blockTypes[neighbor.id].renderNeighborFaces)
@@ -341,7 +405,8 @@ public class Chunk
 
 				vertexIndex += 4;
 			}
-
+			
+			// Delete to here
 		}
 	}
 
@@ -369,10 +434,10 @@ public class Chunk
 	// 	float y = textureID / VoxelData.TextureAtlasSizeInBlocks;
 	// 	float x = textureID - (y * VoxelData.TextureAtlasSizeInBlocks);
 
-	// 	x *= VoxelData.NormalizeBlockTextureSize;
-	// 	y *= VoxelData.NormalizeBlockTextureSize;
+	// 	x *= VoxelData.NormalizedBlockTextureSize;
+	// 	y *= VoxelData.NormalizedBlockTextureSize;
 
-	// 	y = 1f - y - VoxelData.NormalizeBlockTextureSize;
+	// 	y = 1f - y - VoxelData.NormalizedBlockTextureSize;
 
 	// 	// Get rid of this according to clip 26 - 17:39
 	// 	// uvs.Add(new Vector2(x, y));
@@ -380,8 +445,8 @@ public class Chunk
 	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y));
 	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y + VoxelData.NormalizeBlockTextureSize));
 
-	// 	x += VoxelData.NormalizeBlockTextureSize * uv.x;
-	// 	y += VoxelData.NormalizeBlockTextureSize * uv.y;
+	// 	x += VoxelData.NormalizedBlockTextureSize * uv.x;
+	// 	y += VoxelData.NormalizedBlockTextureSize * uv.y;
 
 	// 	uvs.Add(new Vector2(x,y));
 	// }

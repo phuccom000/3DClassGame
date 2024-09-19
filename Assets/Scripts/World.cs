@@ -17,6 +17,7 @@ public class World : MonoBehaviour
     public Color night;
 
     public Transform player;
+    public Player _player; // Clip 27
     public Vector3 spawnPosition;
     public Material material;
     public Material transparentMaterial;
@@ -46,6 +47,26 @@ public class World : MonoBehaviour
 
     Thread ChunkUpdateThread;
     public object ChunkUpdateThreadLock = new Object();
+
+    //private static World _instance; // Clip 27
+    //public static World Instance { get { return _instance; } } // Clip 27
+    //public WorldData worldData; // Clip 27
+    public string appPath; // Clip 27
+
+    // Clip 27
+    // private void Awake() {
+    //     // If the instance value is not null and not *this*, we've somehow ended up with more than one World component.
+    //     // Since another one has already been assigned, delete this one.
+    //     if (_instance != null && _instance != this)
+    //         Destroy(this.gameObject);
+    //     // Else set this to the instance.
+    //     else
+    //         _instance = this;
+
+    //     appPath = Application.persistentDataPath;
+
+    //     _player = player.GetComponent<Player>();
+    // }
     private void Start()
     {
         //string jsonExport = JsonUtility.ToJson(settings);
@@ -216,6 +237,9 @@ public class World : MonoBehaviour
             while (queue.Count > 0)
             {
                 VoxelMod v = queue.Dequeue();
+
+                // worldData.SetVoxel(v.position, v.id, 1); - Clip 27
+
                 ChunkCoord c = GetChunkCoordFromVector3(v.position);
 
                 if (chunks[c.x, c.z] == null)
@@ -525,12 +549,10 @@ public class Settings
 
     [Header("Controls")]
     [Range(0.1f, 10f)]
-    public float mouseSensitivity;
+    public float mouseSensitivity = 5.0f;
 
-    [Header("World Gen")]
-    public int seed;
     [Header("Game Details")]
-    public bool isCreativeMode;
+    public bool isCreativeMode = false;
     //public int difficulty;
 
 
