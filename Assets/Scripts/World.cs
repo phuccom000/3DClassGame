@@ -60,18 +60,19 @@ public class World : MonoBehaviour
         Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
         Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
 
+        // Vid 25 fix problem from vid 24
+        // LoadWorld();
+
+        SetGlobalLightValue();
+        spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight - 50f, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
+        GenerateWorld();
+        playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
+
         if (settings.enableThreading)
         {
             ChunkUpdateThread = new Thread(new ThreadStart(ThreadedUpdate));
             ChunkUpdateThread.Start();
         }
-
-        // Vid 25 fix problem from vid 24
-        // LoadWorld();
-        SetGlobalLightValue();
-        spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight - 50f, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
-        GenerateWorld();
-        playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
     }
 
@@ -254,22 +255,23 @@ public class World : MonoBehaviour
         {
             for (int z = coord.z - settings.viewDistance; z < coord.z + settings.viewDistance; z++)
             {
-                if (IsChunkInWorld(new ChunkCoord(x, z)))
+                ChunkCoord thisChunkCoord = new ChunkCoord(x, z);
+                if (IsChunkInWorld(thisChunkCoord))
                 {
                     if (chunks[x, z] == null)
                     {
-                        chunks[x, z] = new Chunk(new ChunkCoord(x, z), this);
-                        chunksToCreate.Add(new ChunkCoord(x, z));
+                        chunks[x, z] = new Chunk(thisChunkCoord, this);
+                        chunksToCreate.Add(thisChunkCoord);
                     }
                     else if (!chunks[x, z].isActive)
                     {
                         chunks[x, z].isActive = true;
                     }
-                    activeChunks.Add(new ChunkCoord(x, z));
+                    activeChunks.Add(thisChunkCoord);
                 }
                 for (int i = 0; i < prevActiveChunks.Count; i++)
                 {
-                    if (prevActiveChunks[i].Equals(new ChunkCoord(x, z)))
+                    if (prevActiveChunks[i].Equals(thisChunkCoord))
                         prevActiveChunks.RemoveAt(i);
                 }
             }

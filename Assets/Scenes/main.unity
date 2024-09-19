@@ -168,7 +168,7 @@ MonoBehaviour:
   player: {fileID: 966997503}
   spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
-  transparentMaterial: {fileID: 2100000, guid: b786d7db63da4cc4bb072aaa6e1ed498, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 9bd70c006693ec445ad257fbd43bb4f0, type: 2}
   waterMaterial: {fileID: 2100000, guid: 79c610691321c8a43b6b2859450a10b8, type: 2}
   blockTypes:
   - blockName: Air
@@ -177,6 +177,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
+    transparency: 0
     icon: {fileID: 0}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -190,6 +191,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300010, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 9
     frontFaceTexture: 9
@@ -203,6 +205,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300000, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -216,6 +219,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300002, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 2
     frontFaceTexture: 2
@@ -229,6 +233,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300012, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 10
     frontFaceTexture: 10
@@ -242,6 +247,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300004, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 1
     frontFaceTexture: 1
@@ -255,6 +261,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300006, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 5
     frontFaceTexture: 5
@@ -268,6 +275,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300014, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 4
     frontFaceTexture: 4
@@ -281,6 +289,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300020, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 11
     frontFaceTexture: 11
@@ -294,6 +303,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: 21300016, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 8
     frontFaceTexture: 8
@@ -307,6 +317,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
+    transparency: 0
     icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 3
     frontFaceTexture: 3
@@ -320,6 +331,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 5
+    transparency: 0
     icon: {fileID: 1381748725, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 16
     frontFaceTexture: 16
@@ -333,6 +345,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 18
     frontFaceTexture: 18
@@ -346,6 +359,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
+    transparency: 0
     icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 18
     frontFaceTexture: 18
@@ -359,6 +373,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 1
     opacity: 7
+    transparency: 0
     icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -968,7 +983,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -997,7 +1012,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7, z: 0}
+  m_LocalPosition: {x: 0, y: 1.7, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1056,7 +1071,7 @@ MonoBehaviour:
   gravity: -9.8
   flightSpeed: 8
   flightSprintSpeed: 12
-  playerWidth: 0.15
+  playerWidth: 0.25
   turn: {x: 0, y: 0}
   highlightBlock: {fileID: 1074434262}
   placeBlock: {fileID: 1891894155}
@@ -1412,7 +1427,6 @@ GameObject:
   - component: {fileID: 1215327156}
   - component: {fileID: 1215327159}
   - component: {fileID: 1215327158}
-  - component: {fileID: 1215327157}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1435,27 +1449,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1891894155}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1215327157
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215327155}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1215327158
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2062,7 +2055,6 @@ GameObject:
   - component: {fileID: 1568835159}
   - component: {fileID: 1568835162}
   - component: {fileID: 1568835161}
-  - component: {fileID: 1568835160}
   - component: {fileID: 1568835163}
   m_Layer: 0
   m_Name: Cube
@@ -2086,27 +2078,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1074434262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1568835160
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568835158}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1568835161
 MeshRenderer:
   m_ObjectHideFlags: 0

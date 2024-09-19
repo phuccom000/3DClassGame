@@ -43,9 +43,7 @@ public class Player : MonoBehaviour
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
 
-        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor in the center of the screen
-        Cursor.visible = false;
-
+        world.inUI = false;
     }
 
     private void FixedUpdate()
@@ -69,7 +67,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             world.inUI = !world.inUI;
-            Cursor.visible = !Cursor.visible;
         }
 
         if (Input.GetKeyDown(KeyCode.F1)) // Toggle creative mode
@@ -164,6 +161,10 @@ public class Player : MonoBehaviour
     }
     private void GetPlayerInputs()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        };
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         mouseHorizontal = Input.GetAxis("Mouse X") * world.settings.mouseSensitivity;
