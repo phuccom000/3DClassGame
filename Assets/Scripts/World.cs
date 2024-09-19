@@ -51,7 +51,7 @@ public class World : MonoBehaviour
     //public static World Instance { get { return _instance; } } // Clip 27
     //public WorldData worldData; // Clip 27
     public string appPath; // Clip 27
-    
+
     // Clip 27
     // private void Awake() {
     //     // If the instance value is not null and not *this*, we've somehow ended up with more than one World component.
@@ -85,7 +85,7 @@ public class World : MonoBehaviour
         // LoadWorld();
 
         SetGlobalLightValue();
-        spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight - 50f, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
+        spawnPosition = new Vector3(VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth / 2f, VoxelData.ChunkHeight - 50f, VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth / 2f);
         GenerateWorld();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
@@ -545,12 +545,10 @@ public class Settings
 
     [Header("Controls")]
     [Range(0.1f, 10f)]
-    public float mouseSensitivity;
+    public float mouseSensitivity = 5.0f;
 
-    [Header("World Gen")]
-    public int seed;
     [Header("Game Details")]
-    public bool isCreativeMode;
+    public bool isCreativeMode = false;
     //public int difficulty;
 
 

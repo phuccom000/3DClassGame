@@ -91,7 +91,7 @@ namespace TMPro.Examples
                 }
                 else if (CameraMode == CameraModes.Follow)
                 {
-                    desiredPosition = CameraTarget.position + CameraTarget.TransformDirection(Quaternion.Euler(ElevationAngle, OrbitalAngle, 0f) * (new Vector3(0, 0, -FollowDistance)));
+                    desiredPosition = CameraTarget.position + CameraTarget.TransformDirection(Quaternion.Euler(ElevationAngle, OrbitalAngle, 0f) * new Vector3(0, 0, -FollowDistance));
                 }
                 else
                 {

@@ -76,20 +76,10 @@ public class DragAndDropHandler : MonoBehaviour
         // If your hand is holding item slot and you click on an item slot
         if (cursorSlot.HasItem && clickedSlot.HasItem)
         {
-            // If both of them are DIFFERENT objects
-            if (cursorSlot.itemSlot.stack.id != clickedSlot.itemSlot.stack.id)
-            {
-                ItemStack oldCursorSlot = cursorSlot.itemSlot.TakeAll();
-                ItemStack oldSlot = clickedSlot.itemSlot.TakeAll();
-                clickedSlot.itemSlot.InsertStack(oldCursorSlot);
-                cursorSlot.itemSlot.InsertStack(oldSlot);
-            }
-            // If both of them are SAME objects
-            // if () {
-
-            // }
-            return;
-
+            ItemStack oldCursorSlot = cursorSlot.itemSlot.TakeAll();
+            ItemStack oldSlot = clickedSlot.itemSlot.TakeAll();
+            clickedSlot.itemSlot.InsertStack(oldCursorSlot);
+            cursorSlot.itemSlot.InsertStack(oldSlot);
         }
 
     }
