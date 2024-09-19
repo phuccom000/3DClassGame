@@ -54,10 +54,8 @@ public class Chunk
 		chunkObject.transform.position = new Vector3(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
 		chunkObject.name = "Chunk " + coord.x + ", " + coord.z;
 
-		position.x = Mathf.FloorToInt(chunkObject.transform.position.x);
-		position.y = Mathf.FloorToInt(chunkObject.transform.position.y);
-		position.z = Mathf.FloorToInt(chunkObject.transform.position.z);
-
+		//DO NOT CHANGE
+		position = Vector3Int.FloorToInt(chunkObject.transform.position);
 
 		PopulateVoxelMap();
 	}
@@ -257,9 +255,9 @@ public class Chunk
 
 	void UpdateMeshData(Vector3Int pos)
 	{
-		int x = Mathf.FloorToInt(pos.x);
-		int y = Mathf.FloorToInt(pos.y);
-		int z = Mathf.FloorToInt(pos.z);
+		int x = pos.x;
+		int y = pos.y;
+		int z = pos.z;
 
 		byte blockID = voxelMap[x, y, z].id;
 		bool isTransparent = world.blockTypes[blockID].renderNeighborFaces;
@@ -295,9 +293,9 @@ public class Chunk
 
 			// 	vertexIndex += faveVertCount;
 			// }
-			
+
 			// Delete all of this code accordinng to clip 26 - 13:32
-			
+
 			VoxelState neighbor = CheckVoxel(pos + VoxelData.faceChecks[p]);
 			// Vid 28 - 15:10 min
 			if (neighbor != null && world.blockTypes[neighbor.id].renderNeighborFaces)
@@ -338,8 +336,8 @@ public class Chunk
 				// Vid 28 - 7 min
 
 				vertexIndex += 4;
-			} 
-			
+			}
+
 		}
 	}
 
@@ -376,7 +374,7 @@ public class Chunk
 	// 	// uvs.Add(new Vector2(x, y + VoxelData.NormalizeBlockTextureSize));
 	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y));
 	// 	// uvs.Add(new Vector2(x + VoxelData.NormalizeBlockTextureSize, y + VoxelData.NormalizeBlockTextureSize));
-	
+
 	// 	x += VoxelData.NormalizeBlockTextureSize * uv.x;
 	// 	y += VoxelData.NormalizeBlockTextureSize * uv.y;
 
@@ -422,8 +420,8 @@ public class ChunkCoord
 		int xCheck = Mathf.FloorToInt(pos.x);
 		int zCheck = Mathf.FloorToInt(pos.z);
 
-		x = xCheck / VoxelData.ChunkWidth;
-		z = zCheck / VoxelData.ChunkWidth;
+		x = Mathf.FloorToInt(xCheck / VoxelData.ChunkWidth);
+		z = Mathf.FloorToInt(zCheck / VoxelData.ChunkWidth);
 	}
 
 	public bool Equals(ChunkCoord other)

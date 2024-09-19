@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
             // Clamp the pitch to avoid over-rotation
             turn.y = Mathf.Clamp(turn.y, -90f, 90f);
 
-            transform.localRotation = Quaternion.Euler(0, turn.x * world.settings.mouseSensitivity, 0);
-            cam.localRotation = Quaternion.Euler(turn.y * world.settings.mouseSensitivity, 0, 0);
+            transform.localRotation = Quaternion.Euler(0, turn.x, 0);
+            cam.localRotation = Quaternion.Euler(turn.y, 0, 0);
             transform.Translate(velocity, Space.World);
         }
     }
@@ -166,8 +166,8 @@ public class Player : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        mouseHorizontal = Input.GetAxis("Mouse X");
-        mouseVertical = Input.GetAxis("Mouse Y");
+        mouseHorizontal = Input.GetAxis("Mouse X") * world.settings.mouseSensitivity;
+        mouseVertical = Input.GetAxis("Mouse Y") * world.settings.mouseSensitivity;
         turn.x += mouseHorizontal;
         turn.y -= mouseVertical;
 

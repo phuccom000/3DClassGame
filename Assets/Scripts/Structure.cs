@@ -61,6 +61,8 @@ public static class Structure
 
         for (int i = 1; i <= height; i++)
             queue.Enqueue(new VoxelMod(new Vector3(position.x, position.y + i, position.z), 12));
+        queue.Enqueue(new VoxelMod(new Vector3(position.x, position.y + height + 1, position.z), 13));
+
 
         return queue;
     }

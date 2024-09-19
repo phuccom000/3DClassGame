@@ -68,22 +68,24 @@ public class World : MonoBehaviour
 
         // Vid 25 fix problem from vid 24
         // LoadWorld();
-
+        SetGlobalLightValue();
         spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight - 50f, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
         GenerateWorld();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
     }
 
-    public void SetGlobalLightValue () {
+    public void SetGlobalLightValue()
+    {
 
         Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
         Camera.main.backgroundColor = Color.Lerp(night, day, globalLightLevel);
 
     }
 
-    private void Update() {
-        
+    private void Update()
+    {
+
         playerChunkCoord = GetChunkCoordFromVector3(player.position);
 
         // Only update the chunks if the player has moved from the chunk they were previously on.
@@ -173,7 +175,8 @@ public class World : MonoBehaviour
                 if (chunksToUpdate[index].isEditable)
                 {
                     chunksToUpdate[index].UpdateChunk();
-                    activeChunks.Add(chunksToUpdate[index].coord);
+                    if (!activeChunks.Contains(chunksToUpdate[index].coord))
+                        activeChunks.Add(chunksToUpdate[index].coord);
                     chunksToUpdate.RemoveAt(index);
                     updated = true;
                 }
@@ -337,18 +340,20 @@ public class World : MonoBehaviour
         // Vid 28 - 9:40 min
 
         /*biome selection pass*/
-         int solidGroundHeight = 42;
+        int solidGroundHeight = 42;
         float sumOfHeights = 0f;
         int count = 0;
         float strongestWeight = 0f;
         int strongestBiomeIndex = 0;
 
-        for (int i = 0; i < biomes.Length; i++) {
+        for (int i = 0; i < biomes.Length; i++)
+        {
 
             float weight = Noise.Get2DPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].scale);
 
             // Keep track of which weight is strongest.
-            if (weight > strongestWeight) {
+            if (weight > strongestWeight)
+            {
 
                 strongestWeight = weight;
                 strongestBiomeIndex = i;
@@ -359,7 +364,8 @@ public class World : MonoBehaviour
             float height = biomes[i].terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, biomes[i].terrainScale) * weight;
 
             // If the height value is greater 0 add it to the sum of heights.
-            if (height > 0) {
+            if (height > 0)
+            {
 
                 sumOfHeights += height;
                 count++;
