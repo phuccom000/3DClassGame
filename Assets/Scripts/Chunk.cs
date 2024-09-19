@@ -476,6 +476,8 @@ public class ChunkCoord
 
 }
 
+[HideInInspector]
+[System.Serializable]
 public class VoxelState
 {
 	public byte id;
