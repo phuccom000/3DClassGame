@@ -173,7 +173,7 @@ MonoBehaviour:
   blockTypes:
   - blockName: Air
     isSolid: 0
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
     rightFaceTexture: 0
   - blockName: Bedrock
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -201,7 +201,7 @@ MonoBehaviour:
     rightFaceTexture: 9
   - blockName: Stone
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -215,7 +215,7 @@ MonoBehaviour:
     rightFaceTexture: 0
   - blockName: Grass
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -229,7 +229,7 @@ MonoBehaviour:
     rightFaceTexture: 2
   - blockName: Sand
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -243,7 +243,7 @@ MonoBehaviour:
     rightFaceTexture: 10
   - blockName: Dirt
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -257,7 +257,7 @@ MonoBehaviour:
     rightFaceTexture: 1
   - blockName: Wood
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -271,7 +271,7 @@ MonoBehaviour:
     rightFaceTexture: 5
   - blockName: Planks
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -285,7 +285,7 @@ MonoBehaviour:
     rightFaceTexture: 4
   - blockName: Bricks
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
@@ -299,8 +299,8 @@ MonoBehaviour:
     rightFaceTexture: 11
   - blockName: Cobblestone
     isSolid: 1
-    meshData: {fileID: 0}
-    renderNeighborFaces: 0
+    meshData: {fileID: 11400000, guid: 67d49c4b93be8794fbeeda009d094951, type: 2}
+    renderNeighborFaces: 1
     isWater: 0
     opacity: 15
     transparency: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
     rightFaceTexture: 8
   - blockName: Glass
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
@@ -327,7 +327,7 @@ MonoBehaviour:
     rightFaceTexture: 3
   - blockName: Leaves
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 5
@@ -341,7 +341,7 @@ MonoBehaviour:
     rightFaceTexture: 16
   - blockName: Cactus
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
@@ -355,7 +355,7 @@ MonoBehaviour:
     rightFaceTexture: 18
   - blockName: Cactus Top
     isSolid: 1
-    meshData: {fileID: 0}
+    meshData: {fileID: 11400000, guid: da36fb7210a784544835e12acaae67dd, type: 2}
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
