@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
             world.inUI = !world.inUI;
         }
 
-        if (Input.GetKeyDown(KeyCode.F1)) // Toggle creative mode
+        if (Input.GetKeyDown(KeyCode.C)) // Toggle creative mode
         {
             world.settings.isCreativeMode = !world.settings.isCreativeMode;
             if (world.settings.isCreativeMode)
@@ -83,20 +83,24 @@ public class Player : MonoBehaviour
             GetPlayerInputs();
             placeCursorBlocks();
         }
-        
+
         // Clip 27
         Vector3 XZDirection = transform.forward;
         XZDirection.y = 0;
-        if (Vector3.Angle(XZDirection, Vector3.forward) <= 45) {
+        if (Vector3.Angle(XZDirection, Vector3.forward) <= 45)
+        {
             orientation = 0;
         }
-        else if (Vector3.Angle(XZDirection, Vector3.right) <= 45) {
+        else if (Vector3.Angle(XZDirection, Vector3.right) <= 45)
+        {
             orientation = 5;
         }
-        else if (Vector3.Angle(XZDirection, Vector3.back) <= 45) {
+        else if (Vector3.Angle(XZDirection, Vector3.back) <= 45)
+        {
             orientation = 1;
         }
-        else {
+        else
+        {
             orientation = 4;
         }
     }
