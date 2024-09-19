@@ -17,8 +17,8 @@ MonoBehaviour:
   scale: 0
   terrainHeight: 80
   terrainScale: 0.3
-  surfaceBlock: 0
-  subSurfaceBlock: 0
+  surfaceBlock: 3
+  subSurfaceBlock: 3
   majorFloraIndex: 0
   majorFloraZoneScale: 1.3
   majorFloraZoneThreshold: 0.41

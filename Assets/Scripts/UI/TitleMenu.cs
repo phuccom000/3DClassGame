@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TitleMenu : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class TitleMenu : MonoBehaviour
     public void StartGame()
     {
 
-        VoxelData.seed = Mathf.Abs(seedField.text.GetHashCode()) / VoxelData.WorldSizeInChunks;
+        VoxelData.seed = Mathf.Abs(seedField.text.GetHashCode()) / VoxelData.WorldCentre;
         SceneManager.LoadScene("World", LoadSceneMode.Single);
 
     }

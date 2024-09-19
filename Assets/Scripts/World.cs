@@ -69,6 +69,8 @@ public class World : MonoBehaviour
     // }
     private void Start()
     {
+        Debug.Log("World is generated with the seed: " + VoxelData.seed);
+
         //string jsonExport = JsonUtility.ToJson(settings);
         //Debug.Log(jsonExport);
 
@@ -78,6 +80,7 @@ public class World : MonoBehaviour
         settings = JsonUtility.FromJson<Settings>(JsonImport);
 
         Random.InitState(VoxelData.seed);
+
 
         Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
         Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
