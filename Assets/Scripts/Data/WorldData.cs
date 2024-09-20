@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [HideInInspector]
@@ -9,6 +8,15 @@ public class WorldData
 {
     public string worldName = "Prototype";
     public int seed;
+
+    // New fields to store player position as separate float values
+    public float playerPosX;
+    public float playerPosY;
+    public float playerPosZ;
+    public float playerRotX;
+    public float playerRotY;
+    public float playerRotZ;
+    public float playerRotW;
 
     [System.NonSerialized]
     public Dictionary<Vector2Int, ChunkData> chunks = new Dictionary<Vector2Int, ChunkData>();
@@ -20,42 +28,55 @@ public class WorldData
     {
         worldName = _worldName;
         seed = _seed;
+        playerPosX = 0f;  // Default position X
+        playerPosY = 10f; // Default position Y
+        playerPosZ = 0f;  // Default position Z
+        playerRotX = 0f;  // Default rotation X
+        playerRotY = 0f;  // Default rotation Y
+        playerRotZ = 0f;  // Default rotation Z
+        playerRotW = 1f;  // Default rotation W (identity)
     }
 
     public WorldData(WorldData wD)
     {
         worldName = wD.worldName;
         seed = wD.seed;
+        playerPosX = wD.playerPosX;
+        playerPosY = wD.playerPosY;
+        playerPosZ = wD.playerPosZ;
+        playerRotX = wD.playerRotX;
+        playerRotY = wD.playerRotY;
+        playerRotZ = wD.playerRotZ;
+        playerRotW = wD.playerRotW;
     }
+
     public void AddToModifiedChunkList(ChunkData chunk)
     {
         // Only add to list if ChunkData is not already in the list.
         if (!modifiedChunks.Contains(chunk))
             modifiedChunks.Add(chunk);
     }
+
     public ChunkData RequestChunk(Vector2Int coord, bool create)
     {
         ChunkData c;
 
         lock (World.Instance.ChunkListThreadLock)
         {
-
             if (chunks.ContainsKey(coord))
                 c = chunks[coord];
-
             else if (!create)
                 c = null;
-
             else
             {
                 LoadChunk(coord);
                 c = chunks[coord];
             }
-
         }
 
         return c;
     }
+
     public void LoadChunk(Vector2Int coord)
     {
         if (chunks.ContainsKey(coord))
@@ -82,7 +103,6 @@ public class WorldData
 
     public void SetVoxel(Vector3 pos, byte value)
     {
-
         // If the voxel is outside of the world we don't need to do anything with it.
         if (!IsVoxelInWorld(pos))
             return;
@@ -100,17 +120,15 @@ public class WorldData
 
         // Then create a Vector3Int with the position of our voxel *within* the chunk.
         Vector3Int voxel = new Vector3Int((int)(pos.x - x), (int)pos.y, (int)(pos.z - z));
-        
-        // Then set the voxel in our chunk.
 
+        // Then set the voxel in our chunk.
         chunk.map[voxel.x, voxel.y, voxel.z].id = value;
 
-        AddToModifiedChunkList(chunk);
-
+        //AddToModifiedChunkList(chunk);
     }
+
     public VoxelState GetVoxel(Vector3 pos)
     {
-
         // If the voxel is outside of the world we don't need to do anything with it.
         if (!IsVoxelInWorld(pos))
             return null;
@@ -131,6 +149,5 @@ public class WorldData
 
         // Then set the voxel in our chunk.
         return chunk.map[voxel.x, voxel.y, voxel.z];
-
     }
 }

@@ -371,8 +371,6 @@ public class Chunk
 
 				vertexIndex += 4;
 			}
-
-			// Delete to here
 		}
 	}
 

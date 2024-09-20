@@ -214,12 +214,18 @@ public class Player : MonoBehaviour
 
             if (Input.GetMouseButtonDown(1) && toolbar.slots[toolbar.slotIndex].HasItem)
             {
-                world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
-                if (!world.settings.isCreativeMode)
-                    toolbar.slots[toolbar.slotIndex].itemSlot.Take(1);
+                int yPlacePos = Mathf.FloorToInt(placeBlock.position.y) - 1;
+                Vector3 placeBlockHigherThan1 = new Vector3(placeBlock.position.x, yPlacePos, placeBlock.position.z);
+                if (Vector3Int.FloorToInt(placeBlock.position) != Vector3Int.FloorToInt(transform.position) && Vector3Int.FloorToInt(placeBlockHigherThan1) != Vector3Int.FloorToInt(transform.position))
+                {
+                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(Vector3Int.FloorToInt(placeBlock.position), toolbar.slots[toolbar.slotIndex].itemSlot.stack.id);
+                    if (!world.settings.isCreativeMode)
+                        toolbar.slots[toolbar.slotIndex].itemSlot.Take(1);
+                }
             }
         }
     }
+
     private float checkDownSpeed(float downSpeed)
     {
         if (

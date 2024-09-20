@@ -153,7 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     version: 0.0.01
-    loadDistance: 16
+    loadDistance: 8
     viewDistance: 5
     enableThreading: 1
     clouds: 1
@@ -169,6 +169,7 @@ MonoBehaviour:
   night: {r: 0.009790567, g: 0.027156176, b: 0.09019608, a: 1}
   player: {fileID: 966997503}
   _player: {fileID: 966997504}
+  playerRotation: {x: 0, y: 0, z: 0, w: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
   material: {fileID: 2100000, guid: f66b39ad13336e3408a494212f668f55, type: 2}
   transparentMaterial: {fileID: 2100000, guid: 9bd70c006693ec445ad257fbd43bb4f0, type: 2}
@@ -405,6 +406,8 @@ MonoBehaviour:
   worldData:
     worldName: 
     seed: 0
+    playerPosition: {x: 0, y: 0, z: 0}
+    playerRotation: {x: 0, y: 0, z: 0, w: 0}
   appPath: 
 --- !u!4 &86082665
 Transform:

@@ -40,7 +40,7 @@ public class ChunkData
                 }
             }
         }
-        World.Instance.worldData.AddToModifiedChunkList(this);
+        //World.Instance.worldData.AddToModifiedChunkList(this);
     }
 
     //public void Populate()

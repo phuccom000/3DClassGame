@@ -18,7 +18,8 @@ public class World : MonoBehaviour
 
     public Transform player;
     public Player _player; // Clip 27
-    public Vector3 spawnPosition;
+    public Quaternion playerRotation = default;
+    public Vector3 spawnPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);
     public Material material;
     public Material transparentMaterial;
     public Material waterMaterial;
@@ -51,6 +52,7 @@ public class World : MonoBehaviour
 
     private static World _instance; // Clip 27
     public static World Instance { get { return _instance; } } // Clip 27
+
     public WorldData worldData; // Clip 27
     public string appPath; // Clip 27
 
@@ -71,8 +73,9 @@ public class World : MonoBehaviour
     }
     private void Start()
     {
+        worldData = SaveSystem.LoadWorld("Testing", out spawnPosition, out playerRotation);
         Debug.Log("World is generated with the seed: " + VoxelData.seed);
-        worldData = SaveSystem.LoadWorld("Testing");
+
 
         //string jsonExport = JsonUtility.ToJson(settings);
         //Debug.Log(jsonExport);
@@ -92,8 +95,8 @@ public class World : MonoBehaviour
         LoadWorld();
 
         SetGlobalLightValue();
-        spawnPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);
         player.position = spawnPosition;
+        player.rotation = playerRotation;
         CheckViewDistance();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
 
@@ -143,7 +146,7 @@ public class World : MonoBehaviour
             debugScreen.SetActive(!debugScreen.activeSelf);
 
         if (Input.GetKeyDown(KeyCode.F1))
-            SaveSystem.SaveWorld(worldData);
+            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation);
     }
 
 
