@@ -101,7 +101,7 @@ public class WorldData
         else return false;
     }
 
-    public void SetVoxel(Vector3 pos, byte value)
+    public void SetVoxel(Vector3 pos, byte value, int direction)
     {
         // If the voxel is outside of the world we don't need to do anything with it.
         if (!IsVoxelInWorld(pos))
@@ -122,7 +122,7 @@ public class WorldData
         Vector3Int voxel = new Vector3Int((int)(pos.x - x), (int)pos.y, (int)(pos.z - z));
 
         // Then set the voxel in our chunk.
-        chunk.map[voxel.x, voxel.y, voxel.z].id = value;
+        chunk.ModifyVoxel(voxel, value, direction);
 
         //AddToModifiedChunkList(chunk);
     }
@@ -142,7 +142,12 @@ public class WorldData
         z *= VoxelData.ChunkWidth;
 
         // Check if the chunk exists. If not, create it.
-        ChunkData chunk = RequestChunk(new Vector2Int(x, z), true);
+        ChunkData chunk = RequestChunk(new Vector2Int(x, z), false);
+
+        if (chunk == null)
+        {
+            return null;
+        }
 
         // Then create a Vector3Int with the position of our voxel *within* the chunk.
         Vector3Int voxel = new Vector3Int((int)(pos.x - x), (int)pos.y, (int)(pos.z - z));

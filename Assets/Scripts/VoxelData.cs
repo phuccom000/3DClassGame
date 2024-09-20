@@ -13,6 +13,13 @@ public static class VoxelData
     public static float minLightLevel = 0.15f;
     public static float maxLightLevel = 0.8f;
 
+    public static float unitOfLight
+    {
+        // Light is handled as float (0-1) but Minecraft stores light as a byte (0-15), so we need to how much of that float a single light level represents.
+        get { return 1f / 16f; }
+
+    }
+
     public static int seed = 456165;
 
     public static int WorldCentre
@@ -23,13 +30,6 @@ public static class VoxelData
         }
     }
 
-    public static float unitOfLight
-    {
-
-        // Light is handled as float (0-1) but Minecraft stores light as a byte (0-15), so we need to how much of that float a single light level represents.
-        get { return 1f / 16f; }
-
-    }
     public static float lightFalloff = 0.08f;
 
     public static int WorldSizeInVoxels
