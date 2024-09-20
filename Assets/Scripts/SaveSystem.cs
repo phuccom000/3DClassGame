@@ -175,4 +175,26 @@ public static class SaveSystem
         // will make a new one.
         return null;
     }
+
+    public static void DeleteWorld(string worldName)
+    {
+        string worldPath = Application.persistentDataPath + "/saves/" + worldName;
+
+        if (Directory.Exists(worldPath))
+        {
+            try
+            {
+                Directory.Delete(worldPath, true); // Deletes the directory and its contents
+                Debug.Log("World deleted: " + worldName);
+            }
+            catch (IOException e)
+            {
+                Debug.LogError("Error deleting world: " + e.Message);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("World not found: " + worldName);
+        }
+    }
 }
