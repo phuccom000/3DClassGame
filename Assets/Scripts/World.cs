@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class World : MonoBehaviour
 {
@@ -43,6 +44,9 @@ public class World : MonoBehaviour
     public GameObject debugScreen;
 
     public GameObject creativeInventoryWindow;
+
+    public Text statusText;
+    private bool saved;
     public GameObject cursorSlot;
 
     Thread ChunkUpdateThread;
@@ -71,14 +75,9 @@ public class World : MonoBehaviour
     }
     private void Start()
     {
-        worldData = SaveSystem.LoadWorld("Testing", out spawnPosition, out playerRotation);
+        worldData = SaveSystem.LoadWorld("Testing", out spawnPosition, out playerRotation, out saved);
         Debug.Log("World is generated with the seed: " + VoxelData.seed);
-
-
-        //string jsonExport = JsonUtility.ToJson(settings);
-        //Debug.Log(jsonExport);
-
-        //File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
+        statusText.color = new Color(statusText.color.r, statusText.color.g, statusText.color.b, 0);
 
         string JsonImport = File.ReadAllText(Application.dataPath + "/settings.cfg");
         settings = JsonUtility.FromJson<Settings>(JsonImport);
@@ -139,12 +138,19 @@ public class World : MonoBehaviour
             debugScreen.SetActive(!debugScreen.activeSelf);
 
         if (Input.GetKeyDown(KeyCode.F1))
-            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation);
+        {
+            SetTextAndFadeOut("Currently saving.");
+            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation, out saved);
+            if (saved) SetTextAndFadeOut("Finished saving.");
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation);
-            Application.Quit();
+            SetTextAndFadeOut("Saving before quitting.");
+            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation, out saved);
+            if (saved)
+                Application.Quit();
         }
 
     }
@@ -440,6 +446,32 @@ public class World : MonoBehaviour
         else
             return false;
 
+    }
+
+    // Function to set the text and start fading out
+    public void SetTextAndFadeOut(string message, float fadeDuration = 2f)
+    {
+        statusText.text = message;
+        statusText.color = new Color(statusText.color.r, statusText.color.g, statusText.color.b, 1);  // Ensure the alpha is fully visible
+        StartCoroutine(FadeOutText(fadeDuration));
+    }
+
+    // Coroutine to handle the fade-out process
+    private IEnumerator FadeOutText(float duration)
+    {
+        Color originalColor = statusText.color;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);  // Gradually reduce alpha
+            statusText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        // Ensure the text is fully invisible at the end
+        statusText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0);
     }
 }
 

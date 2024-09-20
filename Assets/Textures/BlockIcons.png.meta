@@ -407,6 +407,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: cobblestone_slab
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aaf3f786c581c0468fecf91bc382aaa
+      internalID: -1909205032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -422,6 +443,7 @@ TextureImporter:
       brick_icon: 21300020
       cactus_icon: -391119992
       cobblestone_icon: 21300016
+      cobblestone_slab: -1909205032
       dirt_icon: 21300004
       glass_icon: 21300018
       grass_icon: 21300002

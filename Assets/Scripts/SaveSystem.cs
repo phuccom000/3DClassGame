@@ -7,8 +7,10 @@ using System.Threading;
 
 public static class SaveSystem
 {
-    public static void SaveWorld(WorldData world, Vector3 playerPosition, Quaternion playerRotation)
+    public static void SaveWorld(WorldData world, Vector3 playerPosition, Quaternion playerRotation, out bool success)
     {
+        success = false; // Default to false in case something goes wrong.
+
         // Set our save location and make sure we have a saves folder ready to go.
         string savePath = World.Instance.appPath + "/saves/" + world.worldName + "/";
 
@@ -28,38 +30,71 @@ public static class SaveSystem
         world.playerRotZ = playerRotation.z;
         world.playerRotW = playerRotation.w;
 
+        try
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(savePath + "world.world", FileMode.Create);
 
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(savePath + "world.world", FileMode.Create);
-
-        formatter.Serialize(stream, world);
-        stream.Close();
-
+            formatter.Serialize(stream, world);
+            stream.Close();
+        }
+        catch (IOException e)
+        {
+            Debug.LogError("Error saving world data: " + e.Message);
+            success = false;
+            return;
+        }
+        bool temp = false;
         // Save chunks in a separate thread
-        Thread thread = new Thread(() => SaveChunks(world));
+        Thread thread = new Thread(() =>
+        {
+            bool chunksSaved = SaveChunks(world);
+            if (chunksSaved)
+            {
+                Debug.Log("World saved successfully.");
+                temp = true; // Mark success only if both world and chunks are saved.
+            }
+            else
+            {
+                Debug.LogError("Failed to save chunks.");
+                temp = false;
+            }
+        });
+        success = temp;
         thread.Start();
     }
 
-    public static void SaveChunks(WorldData world)
+    public static bool SaveChunks(WorldData world)
     {
         // Copy modified chunks into a new list and clear the old one to prevent
         // chunks being added to list while it is saving.
         List<ChunkData> chunks = new List<ChunkData>(world.modifiedChunks);
         world.modifiedChunks.Clear();
 
-        // Loop through each chunk and save it.
         int count = 0;
-        foreach (ChunkData chunk in chunks)
-        {
-            SaveSystem.SaveChunk(chunk, world.worldName);
-            count++;
-        }
 
-        Debug.Log(count + " chunks saved.");
+        try
+        {
+            // Loop through each chunk and save it.
+            foreach (ChunkData chunk in chunks)
+            {
+                SaveSystem.SaveChunk(chunk, world.worldName);
+                count++;
+            }
+            Debug.Log(count + " chunks saved.");
+            return true; // Chunks saved successfully
+        }
+        catch (IOException e)
+        {
+            Debug.LogError("Error saving chunks: " + e.Message);
+            return false; // Failed to save chunks
+        }
     }
 
-    public static WorldData LoadWorld(string worldName, out Vector3 playerPosition, out Quaternion playerRotation, int seed = 0)
+    public static WorldData LoadWorld(string worldName, out Vector3 playerPosition, out Quaternion playerRotation, out bool success, int seed = 0)
     {
+        success = false; // Initialize as false.
+
         // Get the path to our world saves.
         string loadPath = World.Instance.appPath + "/saves/" + worldName + "/";
 
@@ -80,6 +115,7 @@ public static class SaveSystem
             playerPosition = new Vector3(world.playerPosX, world.playerPosY, world.playerPosZ);
             playerRotation = new Quaternion(world.playerRotX, world.playerRotY, world.playerRotZ, world.playerRotW);
 
+            success = true; // Loading succeeded
             return new WorldData(world);
         }
         else
@@ -90,7 +126,9 @@ public static class SaveSystem
             // Set default position and rotation
             playerPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);            // Default position
             playerRotation = Quaternion.identity;    // Default rotation
-            SaveWorld(world, playerPosition, playerRotation);  // Save the new world with the player's default position and rotation
+
+            // Save the new world with the player's default position and rotation
+            SaveWorld(world, playerPosition, playerRotation, out success);
 
             return world;
         }

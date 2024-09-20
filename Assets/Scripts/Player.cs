@@ -75,7 +75,9 @@ public class Player : MonoBehaviour
             if (world.settings.isCreativeMode)
             {
                 verticalMomentum = 0; // Reset vertical momentum when entering creative mode
+                world.SetTextAndFadeOut("Creative mode enabled.");
             }
+            else world.SetTextAndFadeOut("Creative mode disabled.");
         }
 
         if (!world.inUI)
