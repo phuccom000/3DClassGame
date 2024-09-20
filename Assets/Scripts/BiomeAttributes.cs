@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BiomeAttributes", menuName = "Block By Block/Biome Attribute")]
+[CreateAssetMenu(fileName = "BiomeAttributes", menuName = "Block by Block/Biome Attribute")]
 public class BiomeAttributes : ScriptableObject
 {
     [Header("Biome")]

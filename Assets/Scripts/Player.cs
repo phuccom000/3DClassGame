@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     public float playerWidth = 0.15f;
     //public float boundsTolerance = 0.1f;
-    public int orientation; // Clip 27
+    public int orientation;
     private float horizontal;
     private float vertical;
     private float mouseHorizontal;
@@ -84,7 +84,6 @@ public class Player : MonoBehaviour
             placeCursorBlocks();
         }
 
-        // Clip 27
         Vector3 XZDirection = transform.forward;
         XZDirection.y = 0;
         if (Vector3.Angle(XZDirection, Vector3.forward) <= 45)
@@ -112,6 +111,7 @@ public class Player : MonoBehaviour
         isGrounded = false;
         jumpRequest = false;
     }
+    
     private void CalculateVelocity()
     {
         if (world.settings.isCreativeMode)
@@ -155,30 +155,7 @@ public class Player : MonoBehaviour
                 velocity.y = checkUpSpeed(velocity.y);
         }
     }
-    private void placeCursorBlocks()
-    {
-        float step = checkIncrement;
-        Vector3Int lastPos = new Vector3Int();
-        while (step < reach)
-        {
-            Vector3 pos = cam.position + cam.forward * step;
-            if (world.CheckForVoxel(pos))
-            {
-                highlightBlock.position = new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-                placeBlock.position = lastPos;
-
-                highlightBlock.gameObject.SetActive(true);
-                //placeBlock.gameObject.SetActive(true);
-
-                return;
-            }
-            lastPos = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-
-            step += checkIncrement;
-        }
-        highlightBlock.gameObject.SetActive(false);
-        placeBlock.gameObject.SetActive(false);
-    }
+    
     private void GetPlayerInputs()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -225,12 +202,35 @@ public class Player : MonoBehaviour
             }
         }
     }
+    private void placeCursorBlocks()
+    {
+        float step = checkIncrement;
+        Vector3Int lastPos = new Vector3Int();
+        while (step < reach)
+        {
+            Vector3 pos = cam.position + cam.forward * step;
+            if (world.CheckForVoxel(pos))
+            {
+                highlightBlock.position = new Vector3(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+                placeBlock.position = lastPos;
 
+                highlightBlock.gameObject.SetActive(true);
+                //placeBlock.gameObject.SetActive(true);
+
+                return;
+            }
+            lastPos = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+
+            step += checkIncrement;
+        }
+        highlightBlock.gameObject.SetActive(false);
+        placeBlock.gameObject.SetActive(false);
+    }
     private float checkDownSpeed(float downSpeed)
     {
         if (
-            world.CheckForVoxel(new Vector3(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth)) ||
             world.CheckForVoxel(new Vector3(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth)) ||
+            world.CheckForVoxel(new Vector3(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z - playerWidth)) ||
             world.CheckForVoxel(new Vector3(transform.position.x + playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth)) ||
             world.CheckForVoxel(new Vector3(transform.position.x - playerWidth, transform.position.y + downSpeed, transform.position.z + playerWidth))
             )

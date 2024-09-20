@@ -44,16 +44,16 @@ public static class VoxelData
         get { return 1f / TextureAtlasSizeInBlocks; }
     }
 
-    public static readonly Vector3Int[] voxelVerts = new Vector3Int[8] {
+    public static readonly Vector3[] voxelVerts = new Vector3[8] {
 
-        new Vector3Int(0, 0, 0),
-        new Vector3Int(1, 0, 0),
-        new Vector3Int(1, 1, 0),
-        new Vector3Int(0, 1, 0),
-        new Vector3Int(0, 0, 1),
-        new Vector3Int(1, 0, 1),
-        new Vector3Int(1, 1, 1),
-        new Vector3Int(0, 1, 1),
+        new Vector3(0.0f, 0.0f, 0.0f),
+        new Vector3(1.0f, 0.0f, 0.0f),
+        new Vector3(1.0f, 1.0f, 0.0f),
+        new Vector3(0.0f, 1.0f, 0.0f),
+        new Vector3(0.0f, 0.0f, 1.0f),
+        new Vector3(1.0f, 0.0f, 1.0f),
+        new Vector3(1.0f, 1.0f, 1.0f),
+        new Vector3(0.0f, 1.0f, 1.0f),
 
     };
     public static readonly Vector3Int[] faceChecks = new Vector3Int[6] {
@@ -78,14 +78,10 @@ public static class VoxelData
 
     public static readonly Vector2[] voxelUvs = new Vector2[4] {
 
-        new Vector2 (0, 0),
-        new Vector2 (0, 1),
-        new Vector2 (1, 0),
-		//new Vector2 (1, 0),
-		//new Vector2 (0, 1),
-		new Vector2 (1, 1)
+        new Vector2 (0.0f, 0.0f),
+        new Vector2 (0.0f, 1.0f),
+        new Vector2 (1.0f, 0.0f),
+        new Vector2 (1.0f, 1.0f)
 
     };
-
-
 }

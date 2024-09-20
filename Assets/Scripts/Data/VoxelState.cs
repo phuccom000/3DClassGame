@@ -73,11 +73,6 @@ public class VoxelState
         }
     }
 
-    public VoxelState(byte _id)
-    {
-        id = _id;
-    }
-
     public VoxelState(byte _id, ChunkData _chunkData, Vector3Int _position)
     {
         id = _id;
@@ -140,8 +135,7 @@ public class VoxelState
 
     public BlockType properties
     {
-        // get { return World.Instance.blockTypes[id]; }
-        get { return World.Instance.blockTypes[id]; } // Clip 27
+        get { return World.Instance.blockTypes[id]; } 
     }
 }
 

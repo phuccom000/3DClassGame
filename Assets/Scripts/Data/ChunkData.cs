@@ -74,9 +74,7 @@ public class ChunkData
         if (voxel.properties.opacity != oldOpacity &&
             (pos.y == VoxelData.ChunkHeight - 1 || map[pos.x, pos.y + 1, pos.z].light == 15))
         {
-
             Lighting.CastNaturalLight(this, pos.x, pos.z, pos.y + 1);
-
         }
 
         World.Instance.worldData.AddToModifiedChunkList(this);
@@ -98,16 +96,12 @@ public class ChunkData
 
     public bool IsVoxelInChunk(Vector3Int pos)
     {
-
         return IsVoxelInChunk(pos.x, pos.y, pos.z);
-
     }
 
     public VoxelState VoxelFromV3Int(Vector3Int pos)
     {
-
         return map[pos.x, pos.y, pos.z];
-
     }
 
 }
