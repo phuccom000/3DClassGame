@@ -23,7 +23,7 @@ public class DebugScreen : MonoBehaviour
     void Update()
     {
         string debugText = "Block by Block\n";
-        debugText += frameRate + " FPS\n\n";
+        debugText += "FPS: " + frameRate + "\n\n";
         debugText += "XYZ: " + (Mathf.FloorToInt(world.player.transform.position.x) - halfWorldSizeInVoxels) + " / " + Mathf.FloorToInt(world.player.transform.position.y) + " / " + (Mathf.FloorToInt(world.player.transform.position.z) - halfWorldSizeInVoxels);
         debugText += "\nChunk: " + (world.playerChunkCoord.x - halfWorldSizeInChunks) + " / " + (world.playerChunkCoord.z - halfWorldSizeInChunks);
 

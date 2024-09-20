@@ -54,17 +54,13 @@ public class Chunk
 
 		if (World.Instance.settings.enableAnimatedChunks)
 			chunkObject.AddComponent<ChunkLoadAnimation>();
-
-
 	}
 
 
 
 	public void UpdateChunk()
 	{
-
 		ClearMeshData();
-
 
 		for (int y = 0; y < VoxelData.ChunkHeight; y++)
 		{
@@ -90,7 +86,7 @@ public class Chunk
 		vertices.Clear();
 		triangles.Clear();
 		transparentTriangles.Clear();
-		// waterTriangles.Clear();
+		waterTriangles.Clear();
 		uvs.Clear();
 		colors.Clear();
 		normals.Clear();
@@ -101,8 +97,7 @@ public class Chunk
 		set
 		{
 			_isActive = value;
-			if (chunkObject != null)
-				chunkObject.SetActive(value);
+			chunkObject?.SetActive(value);
 		}
 	}
 
@@ -118,18 +113,6 @@ public class Chunk
 		chunkData.ModifyVoxel(new Vector3Int(xCheck, yCheck, zCheck), newID, World.Instance._player.orientation);
 
 		UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
-
-
-		// Clip 27
-		// int xCheck = pos.x;
-		// int yCheck = pos.y;
-		// int zCheck = pos.z;
-
-		// xCheck -= position.x;
-		// zCheck -= position.z;
-
-		// chunkData.ModifyVoxel(new Vector3Int(xCheck, yCheck, zCheck), newID, World.Instance._player.orientation);
-		// UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
 	}
 
 	public void UpdateSurroundingVoxels(int x, int y, int z)
@@ -322,6 +305,4 @@ public class ChunkCoord
 		else
 			return false;
 	}
-
-
 }
