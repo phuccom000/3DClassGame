@@ -416,7 +416,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -424,6 +424,27 @@ TextureImporter:
       bones: []
       spriteID: 7aaf3f786c581c0468fecf91bc382aaa
       internalID: -1909205032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: furnace_icon
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba9b7978bd91658468b3d1c90a338d11
+      internalID: -851626022
       vertices: []
       indices: 
       edges: []
@@ -445,6 +466,7 @@ TextureImporter:
       cobblestone_icon: 21300016
       cobblestone_slab: -1909205032
       dirt_icon: 21300004
+      furnace_icon: -851626022
       glass_icon: 21300018
       grass_icon: 21300002
       leaves_icon: 1381748725

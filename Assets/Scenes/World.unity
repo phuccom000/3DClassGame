@@ -194,7 +194,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    icon: {fileID: 21300000, guid: 94dd017b5979c5345b24a6c6a448a62d, type: 3}
+    icon: {fileID: 21300010, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 9
     frontFaceTexture: 9
     topFaceTexture: 9
@@ -285,7 +285,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    icon: {fileID: 21300020, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    icon: {fileID: -851626022, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 13
     frontFaceTexture: 12
     topFaceTexture: 15
@@ -298,7 +298,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    icon: {fileID: 21300000, guid: ce33ae8b2f0bd42478db790a3270eab2, type: 3}
+    icon: {fileID: 21300016, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 8
     frontFaceTexture: 8
     topFaceTexture: 8

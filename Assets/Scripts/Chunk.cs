@@ -73,10 +73,8 @@ public class Chunk
 				}
 			}
 		}
-		lock (World.Instance.chunksToDraw)
-		{
-			World.Instance.chunksToDraw.Enqueue(this);
-		}
+
+		World.Instance.chunksToDraw.Enqueue(this);
 
 	}
 
