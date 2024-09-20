@@ -26,7 +26,7 @@ public static class VoxelData
     {
         get
         {
-            return (WorldSizeInChunks * ChunkWidth) / 2;
+            return WorldSizeInVoxels / 2;
         }
     }
 

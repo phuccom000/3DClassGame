@@ -140,6 +140,13 @@ public class World : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1))
             SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SaveSystem.SaveWorld(worldData, spawnPosition, playerRotation);
+            Application.Quit();
+        }
+
     }
 
 

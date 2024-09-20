@@ -55,7 +55,7 @@ public class ChunkData
         }
 
         Lighting.RecalculateNaturalLight(this);
-        World.Instance.worldData.AddToModifiedChunkList(this);
+        //World.Instance.worldData.AddToModifiedChunkList(this);
     }
 
     public void ModifyVoxel(Vector3Int pos, byte _id, int direction)

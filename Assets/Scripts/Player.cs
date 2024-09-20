@@ -120,11 +120,11 @@ public class Player : MonoBehaviour
 
             velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * Time.fixedDeltaTime * currentFlightSpeed;
 
-            if (Input.GetKey(KeyCode.Space)) // Ascend
+            if (Input.GetButton("Jump")) // Ascend
             {
                 velocity.y = currentFlightSpeed * Time.fixedDeltaTime;
             }
-            else if (Input.GetKey(KeyCode.LeftShift)) // Descend
+            else if (Input.GetButton("Crouch")) // Descend
             {
                 velocity.y = -currentFlightSpeed * Time.fixedDeltaTime;
             }
