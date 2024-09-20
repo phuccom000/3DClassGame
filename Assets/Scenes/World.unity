@@ -181,7 +181,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
-    transparency: 0
     icon: {fileID: 0}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -195,8 +194,7 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
-    icon: {fileID: 21300010, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    icon: {fileID: 21300000, guid: 94dd017b5979c5345b24a6c6a448a62d, type: 3}
     backFaceTexture: 9
     frontFaceTexture: 9
     topFaceTexture: 9
@@ -209,7 +207,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300000, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -223,7 +220,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300002, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 2
     frontFaceTexture: 2
@@ -237,7 +233,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300012, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 10
     frontFaceTexture: 10
@@ -251,7 +246,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300004, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 1
     frontFaceTexture: 1
@@ -265,7 +259,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300006, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 5
     frontFaceTexture: 5
@@ -279,7 +272,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300014, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 4
     frontFaceTexture: 4
@@ -293,7 +285,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300020, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 13
     frontFaceTexture: 12
@@ -307,7 +298,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300016, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 8
     frontFaceTexture: 8
@@ -321,7 +311,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 0
-    transparency: 0
     icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 3
     frontFaceTexture: 3
@@ -335,7 +324,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 5
-    transparency: 0
     icon: {fileID: 1381748725, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 16
     frontFaceTexture: 16
@@ -349,7 +337,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 18
     frontFaceTexture: 18
@@ -363,7 +350,6 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: -391119992, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 18
     frontFaceTexture: 18
@@ -377,8 +363,7 @@ MonoBehaviour:
     renderNeighborFaces: 1
     isWater: 1
     opacity: 7
-    transparency: 0
-    icon: {fileID: 21300018, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
+    icon: {fileID: 21300000, guid: 133c1275adf2a9a4da2a7a67336456fd, type: 3}
     backFaceTexture: 0
     frontFaceTexture: 0
     topFaceTexture: 0
@@ -391,7 +376,6 @@ MonoBehaviour:
     renderNeighborFaces: 0
     isWater: 0
     opacity: 15
-    transparency: 0
     icon: {fileID: 21300020, guid: 2822219ca9b3cfc40aec85f96a4e33cd, type: 3}
     backFaceTexture: 11
     frontFaceTexture: 11
@@ -406,8 +390,13 @@ MonoBehaviour:
   worldData:
     worldName: 
     seed: 0
-    playerPosition: {x: 0, y: 0, z: 0}
-    playerRotation: {x: 0, y: 0, z: 0, w: 0}
+    playerPosX: 0
+    playerPosY: 0
+    playerPosZ: 0
+    playerRotX: 0
+    playerRotY: 0
+    playerRotZ: 0
+    playerRotW: 0
   appPath: 
 --- !u!4 &86082665
 Transform:

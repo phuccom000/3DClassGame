@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     public float playerWidth = 0.15f;
     //public float boundsTolerance = 0.1f;
-    public int orientation; // Clip 27
+    public int orientation;
     private float horizontal;
     private float vertical;
     private float mouseHorizontal;
@@ -84,24 +84,24 @@ public class Player : MonoBehaviour
             placeCursorBlocks();
         }
 
-        // Clip 27
+        // Player orientation
         Vector3 XZDirection = transform.forward;
         XZDirection.y = 0;
         if (Vector3.Angle(XZDirection, Vector3.forward) <= 45)
         {
-            orientation = 0;
+            orientation = 0; // Backward
         }
         else if (Vector3.Angle(XZDirection, Vector3.right) <= 45)
         {
-            orientation = 5;
+            orientation = 5; // Right
         }
         else if (Vector3.Angle(XZDirection, Vector3.back) <= 45)
         {
-            orientation = 1;
+            orientation = 1; // Forward
         }
         else
         {
-            orientation = 4;
+            orientation = 4; // Left
         }
     }
 

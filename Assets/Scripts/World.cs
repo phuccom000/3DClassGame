@@ -17,7 +17,7 @@ public class World : MonoBehaviour
     public Color night;
 
     public Transform player;
-    public Player _player; // Clip 27
+    public Player _player;
     public Quaternion playerRotation = default;
     public Vector3 spawnPosition = new Vector3(VoxelData.WorldCentre, VoxelData.ChunkHeight - 50f, VoxelData.WorldCentre);
     public Material material;
@@ -49,13 +49,12 @@ public class World : MonoBehaviour
     public object ChunkUpdateThreadLock = new Object();
     public object ChunkListThreadLock = new object();
 
-    private static World _instance; // Clip 27
-    public static World Instance { get { return _instance; } } // Clip 27
+    private static World _instance;
+    public static World Instance { get { return _instance; } }
 
-    public WorldData worldData; // Clip 27
-    public string appPath; // Clip 27
+    public WorldData worldData;
+    public string appPath;
 
-    // Clip 27
     private void Awake()
     {
         // If the instance value is not null and not *this*, we've somehow ended up with more than one World component.
@@ -326,8 +325,6 @@ public class World : MonoBehaviour
         // if bottom block of chunk, return bedrock
         if (yPos == 0) return 1;
 
-        // Vid 28 - 9:40 min
-
         /*biome selection pass*/
         int solidGroundHeight = 42;
         float sumOfHeights = 0f;
@@ -383,7 +380,16 @@ public class World : MonoBehaviour
         else if (yPos < terrainHeight && yPos > terrainHeight - 4)
             voxelValue = biome.subSurfaceBlock;
         else if (yPos > terrainHeight)
-            return 0;
+        {
+            if (yPos < 51)
+            {
+                return 14;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         else
             voxelValue = 2;
         /*second pass*/

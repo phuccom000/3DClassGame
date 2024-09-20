@@ -44,8 +44,8 @@ MonoBehaviour:
     noiseOffset: 500
   - nodeName: CaveArea
     blockID: 0
-    minHeight: 1
-    maxHeight: 255
+    minHeight: 5
+    maxHeight: 60
     scale: 0.1
     threshold: 0.5
     noiseOffset: 500

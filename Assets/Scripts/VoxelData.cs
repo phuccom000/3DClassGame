@@ -30,8 +30,6 @@ public static class VoxelData
         }
     }
 
-    public static float lightFalloff = 0.08f;
-
     public static int WorldSizeInVoxels
     {
         get { return WorldSizeInChunks * ChunkWidth; }
